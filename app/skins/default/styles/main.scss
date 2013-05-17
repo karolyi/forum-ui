@@ -1,0 +1,70 @@
+$iconSpritePath: '../../../images/glyphicons-halflings.png';
+$iconWhiteSpritePath: '../../../images/glyphicons-halflings-white.png';
+$honda-red: #d50b19;
+$navbar-radius: 5px;
+$navbar-max-width: 65px;
+$navbar-min-width: 10px;
+$sansFontFamily: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+@import 'sass-bootstrap/lib/bootstrap';
+@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700);
+
+/* right navbar customization */
+.dropdown-menu.topright {
+  left: 100%;
+  top: 0;
+  margin-left: 2px;
+  margin-top: 0;
+}
+.caret-right {
+  border-left: 4px solid black;
+  border-right: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+/* customization end */
+
+.body-background-wrapper {
+  position: fixed;
+  @include size(100%, 100%);
+  overflow: hidden;
+  @include background-size(cover);
+  background-repeat: no-repeat;
+  @include transition(opacity 2s linear);
+  z-index: -9999;
+}
+
+.chromeframe {
+  background: white;
+  color: red;
+  text-align: center;
+}
+
+.sidebar-nav-wrapper {
+  @include size(100%, $navbar-max-width);
+  left: $navbar-min-width - $navbar-max-width;
+  position: fixed;
+  background: $honda-red;
+  text-align: center;
+  @include border-top-right-radius($navbar-radius);
+  @include border-bottom-right-radius($navbar-radius);
+  @include box-shadow(0px 0px 3px black, inset -2px 0px 10px -2px white);
+  @include opacity(80);
+  @include transition(left .2s ease .5s);
+  &:hover, &.focused {
+    left: 0;
+    @include transition-delay(0s);
+  }
+  .iconlist-wrapper {
+    display: inline-block;
+    margin-top: 5px;
+    text-align: left;
+  }
+}
+.width-wrapper {
+  width: 100%;
+  .tabs-wrapper {
+    margin-left: $navbar-min-width;
+  }
+}
