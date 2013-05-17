@@ -29,10 +29,10 @@ module.exports = function (grunt) {
       //   files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
       //   tasks: ['coffee:dist']
       // },
-      coffeeTest: {
-        files: ['test/spec/{,*/}*.coffee'],
-        tasks: ['coffee:test']
-      },
+      // coffeeTest: {
+      //   files: ['test/spec/{,*/}*.coffee'],
+      //   tasks: ['coffee:test']
+      // },
       compass: {
         files: ['<%= yeoman.app %>/skins/*/styles/*.{scss,sass}'],
         tasks: ['compassMultiple:server']
@@ -72,8 +72,9 @@ module.exports = function (grunt) {
             return [
               lrSnippet,
               mountFolder(connect, '.tmp'),
-              mountFolder(connect, 'app'),
-              rewriteRulesSnippet
+              // The rewrite setup MUST come before the app folder mount
+              rewriteRulesSnippet,
+              mountFolder(connect, 'app')
             ];
           }
         }
@@ -333,6 +334,7 @@ module.exports = function (grunt) {
       'clean:server',
       'concurrent:server',
       'livereload-start',
+      'configureRewriteRules',
       'connect:livereload',
       'open',
       'watch'
