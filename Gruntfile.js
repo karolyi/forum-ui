@@ -293,7 +293,8 @@ module.exports = function (grunt) {
             'images/{,*/}*.{webp,gif}',
             'skins/{,*/}backgrounds/*',
             'skins/{,*/}fonts/*',
-            'skins/{,*/}templates/*'
+            'skins/{,*/}templates/*',
+            'languages/*/*.json'
           ]
         }]
       }
