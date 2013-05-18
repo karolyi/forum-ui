@@ -7,7 +7,8 @@ require.config({
     text: '../components/requirejs-text/text',
     underscore: '../components/underscore-amd/underscore',
     backbone: '../components/backbone-amd/backbone',
-    hbs: '../components/require-handlebars-plugin/hbs'
+    hbs: '../components/require-handlebars-plugin/hbs',
+    jStorage: '../components/jStorage/jstorage'
   },
   shim: {
     bootstrap: {
@@ -16,6 +17,10 @@ require.config({
     },
     'jquery-ui': {
       deps: ['jquery']
+    },
+    jStorage: {
+      deps: ['jquery'],
+      exports: 'jQuery.jStorage'
     }
   }
 });
@@ -24,6 +29,7 @@ require(['configLoader', 'jquery', 'app', 'bootstrap'], function (configLoader, 
   'use strict';
   var configDeferObj = $.Deferred();
   var domReadyDeferObj = $.Deferred();
+
   configLoader.onReady(function (config) {
     configDeferObj.resolve(config);
   });

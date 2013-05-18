@@ -1,5 +1,5 @@
 /*global define */
-define(['jquery', 'widgets/backgroundChanger', 'i18n', 'loadFile', 'backboneWebapp', 'widgets/sidebarSetup'], function ($, backgroundChanger, i18n, loadFile, backboneWebapp, sidebarSetup) {
+define(['jquery', 'widgets/backgroundChanger', 'i18n', 'templates', 'backboneWebapp', 'widgets/sidebarSetup'], function ($, backgroundChanger, i18n, templates, backboneWebapp, sidebarSetup) {
   'use strict';
 
   var createUi = function () {
@@ -7,6 +7,7 @@ define(['jquery', 'widgets/backgroundChanger', 'i18n', 'loadFile', 'backboneWeba
   };
 
   var launchApp = function (config) {
+    backboneWebapp.configuration = config;
     backgroundChanger.start({
       bgImageArray: config.bgImageArray,
       changeTime: 5 * 60 * 1000
@@ -14,10 +15,8 @@ define(['jquery', 'widgets/backgroundChanger', 'i18n', 'loadFile', 'backboneWeba
     // Load localization and templates for the skin
     $.when(
       i18n.init(config.displayLanguage),
-      loadFile('/skins/' + config.usedSkin + '/templates/test.html')
-    ).then(function (l10n, testHtml) {
-      backboneWebapp.configuration = config;
-      backboneWebapp.templates.testHtml = testHtml;
+      templates.init()
+    ).then(function () {
       // Start the ui
       createUi();
     });
