@@ -223,7 +223,7 @@ module.exports = function (grunt) {
     },
     usemin: {
       html: ['<%= yeoman.dist %>/{,*/}*.html'],
-      css: ['<%= yeoman.dist %>/skins/*/styles/*.css'],
+      css: ['<%= yeoman.dist %>/skins/{,*/}styles/*.css'],
       options: {
         dirs: ['<%= yeoman.dist %>']
       }
@@ -251,9 +251,9 @@ module.exports = function (grunt) {
     cssmin: {
       dist: {
         files: {
-          '<%= yeoman.dist %>/skins/*/styles/main.css': [
-            '.tmp/skins/*/styles/*.css',
-            '<%= yeoman.app %>/skins/*/styles/*.css'
+          '<%= yeoman.dist %>/skins/default/styles/main.css': [
+            '.tmp/skins/default/styles/*.css',
+            '<%= yeoman.app %>/skins/default/styles/*.css'
           ]
         }
       }
@@ -291,7 +291,7 @@ module.exports = function (grunt) {
             '*.{ico,txt}',
             '.htaccess',
             'images/{,*/}*.{webp,gif}',
-            'skins/*/fonts/*'
+            'skins/{,*/}*'
           ]
         }]
       }
