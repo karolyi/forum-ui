@@ -1,8 +1,9 @@
 /*global define */
-define(['jquery', 'widgets/backgroundChanger', 'i18n', 'templates', 'backboneWebapp', 'widgets/sidebarSetup'], function ($, backgroundChanger, i18n, templates, backboneWebapp, sidebarSetup) {
+define(['jquery', 'widgets/backgroundChanger', 'i18n', 'templates', 'backboneWebapp', 'widgets/sidebarSetup', 'socketio'], function ($, backgroundChanger, i18n, templates, backboneWebapp, sidebarSetup, socketio) {
   'use strict';
 
   var createUi = function () {
+    console.debug('createUi');
     sidebarSetup.init();
   };
 
@@ -15,7 +16,8 @@ define(['jquery', 'widgets/backgroundChanger', 'i18n', 'templates', 'backboneWeb
     // Load localization and templates for the skin
     $.when(
       i18n.init(config.displayLanguage),
-      templates.init()
+      templates.init(),
+      socketio.init()
     ).then(function () {
       // Start the ui
       createUi();

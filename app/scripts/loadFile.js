@@ -12,7 +12,7 @@ define(['jquery', 'jStorage', 'backboneWebapp'], function ($, jStorage, backbone
       jStorage.flush();
       jStorage.set('cacheKey', backboneWebapp.configuration.cacheKey);
     }
-    jStorage.set('url', data);
+    jStorage.set(url, data);
   };
 
   var loadFromHttp = function (url, dataType, deferObj) {
@@ -21,7 +21,7 @@ define(['jquery', 'jStorage', 'backboneWebapp'], function ($, jStorage, backbone
       deferObj.resolve(data);
     };
     var error = function (jqXHR, textStatus, errorThrown) {
-      console.log('loadFile.js: error loading', this.url, ':', errorThrown);
+      console.error('loadFile.js: error loading', this.url, ':', errorThrown);
       deferObj.reject(errorThrown);
     };
 

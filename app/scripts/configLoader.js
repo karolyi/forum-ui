@@ -24,7 +24,7 @@ define(['jquery'], function ($) {
           callback(data);
         },
         error: function (jqXHR, textStatus, errorThrown) {
-          console.log('CONFIG LOAD ERROR:', errorThrown);
+          console.error('configLoader.js config load error:', errorThrown);
         }
       });
     }

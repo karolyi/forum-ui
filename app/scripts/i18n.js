@@ -1,5 +1,5 @@
 /* global define */
-define(['jquery', 'jed'], function ($, Jed) {
+define(['jquery', 'jed', 'loadFile'], function ($, Jed, loadFile) {
   'use strict';
   var i18n = {
     // We cache already initialized languages in here
@@ -44,18 +44,15 @@ define(['jquery', 'jed'], function ($, Jed) {
         this._changeL10n(langCode);
         deferObj.resolve(this);
       } else {
-        $.ajax({
-          url: '/languages/' + langCode + '/frontend.json',
-          dataType: 'json',
-          success: function (l10n) {
-            self._initL10n(langCode, l10n);
-            self._changeL10n(langCode);
-            deferObj.resolve(self);
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            console.error('Couldn\'t load l10n file for', langCode, ':', errorThrown);
-            deferObj.resolve(self);
-          }
+        $.when(
+          loadFile('/languages/' + langCode + '/frontend.json', 'json')
+        ).then(function (l10n) {
+          self._initL10n(langCode, l10n);
+          self._changeL10n(langCode);
+          deferObj.resolve(self);
+        }).fail(function () {
+          console.error('localization loading failed:', langCode);
+          deferObj.resolve(self);
         });
       }
       return deferObj.promise();
