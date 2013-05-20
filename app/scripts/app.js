@@ -1,13 +1,14 @@
 /*global define */
-define(['jquery', 'widgets/backgroundChanger', 'i18n', 'templates', 'backboneWebapp', 'widgets/sidebarSetup', 'socketio'], function ($, backgroundChanger, i18n, templates, backboneWebapp, sidebarSetup, socketio) {
+define(['jquery', 'widgets/backgroundChanger', 'i18n', 'backboneWebapp', 'widgets/sidebar', 'socketio', 'router'], function ($, backgroundChanger, i18n, backboneWebapp, sidebar, socketio, router) {
   'use strict';
 
   var createUi = function () {
     console.debug('createUi');
-    sidebarSetup.init();
+    sidebar.init();
+    router.init();
   };
 
-  var launchApp = function (config) {
+  var launch = function (config) {
     backboneWebapp.configuration = config;
     backgroundChanger.start({
       bgImageArray: config.bgImageArray,
@@ -16,8 +17,8 @@ define(['jquery', 'widgets/backgroundChanger', 'i18n', 'templates', 'backboneWeb
     // Load localization and templates for the skin
     $.when(
       i18n.init(config.displayLanguage),
-      templates.init(),
-      socketio.init()
+      socketio.init(),
+      backboneWebapp.init()
     ).then(function () {
       // Start the ui
       createUi();
@@ -25,6 +26,6 @@ define(['jquery', 'widgets/backgroundChanger', 'i18n', 'templates', 'backboneWeb
   };
 
   return {
-    launch: launchApp
+    launch: launch
   };
 });

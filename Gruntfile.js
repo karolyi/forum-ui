@@ -70,10 +70,10 @@ module.exports = function (grunt) {
         options: {
           middleware: function (connect) {
             return [
+              // The rewrite setup MUST come before the app folder mount and the livereload snippet
+              rewriteRulesSnippet,
               lrSnippet,
               mountFolder(connect, '.tmp'),
-              // The rewrite setup MUST come before the app folder mount
-              rewriteRulesSnippet,
               mountFolder(connect, 'app')
             ];
           }
@@ -292,6 +292,7 @@ module.exports = function (grunt) {
             '.htaccess',
             'images/{,*/}*.{webp,gif}',
             'skins/{,*/}backgrounds/*',
+            'skins/{,*/}images/*',
             'skins/{,*/}fonts/*',
             'skins/{,*/}templates/*',
             'languages/*/*.json'

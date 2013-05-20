@@ -1,11 +1,15 @@
 $iconSpritePath: '../../../images/glyphicons-halflings.png';
 $iconWhiteSpritePath: '../../../images/glyphicons-halflings-white.png';
-$honda-red: #d50b19;
-$navbar-radius: 5px;
-$navbar-max-width: 65px;
-$navbar-min-width: 10px;
+$hondaRed: #d50b19;
+$navbarRadius: 5px;
+$tabContentRadius: 5px;
+$navbarMaxWidth: 65px;
+$navbarMinWidth: 10px;
 $sansFontFamily: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $baseFontSize: 13px;
+$baseBorderRadius: 2px;
+$borderRadiusLarge: 4px;
+$borderRadiusSmall: 1px;
 
 @import 'sass-bootstrap/lib/bootstrap';
 // @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700);
@@ -47,13 +51,13 @@ body {
 }
 
 .sidebar-nav-wrapper {
-  @include size(100%, $navbar-max-width);
-  left: $navbar-min-width - $navbar-max-width;
+  @include size(100%, $navbarMaxWidth);
+  left: $navbarMinWidth - $navbarMaxWidth;
   position: fixed;
-  background: $honda-red;
+  background: $hondaRed;
   text-align: center;
-  @include border-top-right-radius($navbar-radius);
-  @include border-bottom-right-radius($navbar-radius);
+  @include border-top-right-radius($navbarRadius);
+  @include border-bottom-right-radius($navbarRadius);
   @include box-shadow(0px 0px 3px black, inset -2px 0px 10px -2px white);
   @include opacity(80);
   @include transition(left .2s ease .5s);
@@ -67,9 +71,21 @@ body {
     text-align: left;
   }
 }
-.width-wrapper {
+.forum-width-wrapper {
   width: 100%;
-  .tabs-wrapper {
-    margin-left: $navbar-min-width;
+  .forum-tabs-wrapper {
+    margin-left: $navbarMinWidth;
+    #forum-main-navtabs {
+      li a {
+        max-width: 50px;
+        @include text-overflow();
+      }
+      margin-bottom: 0;
+    }
+    #forum-main-tabcontent-wrapper {
+      background: url('../images/marble-opaque-bg.png') repeat repeat;
+      @include border-bottom-left-radius($tabContentRadius);
+      @include border-bottom-right-radius($tabContentRadius);
+    }
   }
 }
