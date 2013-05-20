@@ -198,6 +198,7 @@ module.exports = function (grunt) {
           preserveLicenseComments: false,
           useStrict: true,
           wrap: true,
+          findNestedDependencies: true
           //uglify2: {} // https://github.com/mishoo/UglifyJS2
         }
       }
