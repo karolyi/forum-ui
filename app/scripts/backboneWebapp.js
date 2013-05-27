@@ -1,37 +1,31 @@
 /* global define */
-define(['jquery', 'backbone'], function ($, backbone) {
+define(['jquery'], function ($) {
   'use strict';
   var webapp = {
     init: function () {
       var deferObj = $.Deferred();
       var self = this;
       require([
-        'models/registeredUser',
-        'collections/registeredUsers',
-        'models/topic',
-        'collections/topics',
-        'models/bookmark',
-        'collections/bookmarks',
-        'models/topicType',
-        'collections/topicTypes'
+        'models/RegisteredUser',
+        'collections/RegisteredUsers',
+        'models/Topic',
+        'models/Bookmark',
+        'collections/Bookmarks',
+        'collections/Topics'
       ], function (
-        registeredUser,
-        registeredUsers,
-        topic,
-        topics,
-        bookmark,
-        bookmarks,
-        topicType,
-        topicTypes
+        RegisteredUser,
+        RegisteredUsers,
+        Topic,
+        Bookmark,
+        Bookmarks,
+        Topics
       ) {
-        self.models.registeredUser = registeredUser;
-        self.collections.registeredUsers = registeredUsers;
-        self.models.topic = topic;
-        self.collections.topics = topics;
-        self.models.bookmark = bookmark;
-        self.collections.bookmarks = bookmarks;
-        self.models.topicType = topicType;
-        self.collections.topicTypes = topicTypes;
+        self.models.RegisteredUser = RegisteredUser;
+        self.collections.RegisteredUsers = RegisteredUsers;
+        self.models.Topic = Topic;
+        self.models.Bookmark = Bookmark;
+        self.collections.Bookmarks = Bookmarks;
+        self.collections.topics = new Topics();
         deferObj.resolve();
       });
       return deferObj.promise();
@@ -39,7 +33,8 @@ define(['jquery', 'backbone'], function ($, backbone) {
     views: {},
     models: {},
     collections: {},
-    configuration: {}
+    configuration: {},
+    topicTypes: {}
   };
 
   return webapp;

@@ -1,5 +1,5 @@
 /*global define */
-define(['jquery', 'widgets/backgroundChanger', 'i18n', 'backboneWebapp', 'widgets/sidebar', 'socketio', 'router'], function ($, backgroundChanger, i18n, backboneWebapp, sidebar, socketio, router) {
+define(['jquery', 'widgets/backgroundChanger', 'i18n', 'BackboneWebapp', 'widgets/sidebar', 'socketio', 'router', 'datetime'], function ($, backgroundChanger, i18n, BackboneWebapp, sidebar, socketio, router, datetime) {
   'use strict';
 
   var createUi = function () {
@@ -9,7 +9,7 @@ define(['jquery', 'widgets/backgroundChanger', 'i18n', 'backboneWebapp', 'widget
   };
 
   var launch = function (config) {
-    backboneWebapp.configuration = config;
+    BackboneWebapp.configuration = config;
     backgroundChanger.start({
       bgImageArray: config.bgImageArray,
       changeTime: 5 * 60 * 1000
@@ -18,9 +18,10 @@ define(['jquery', 'widgets/backgroundChanger', 'i18n', 'backboneWebapp', 'widget
     $.when(
       i18n.init(config.displayLanguage),
       socketio.init(),
-      backboneWebapp.init()
+      BackboneWebapp.init()
     ).then(function () {
       // Start the ui
+      datetime.init();
       createUi();
     });
   };

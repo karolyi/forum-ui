@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-12 17:19+0200\n"
+"POT-Creation-Date: 2013-05-27 00:47+0200\n"
 "PO-Revision-Date: 2013-05-12 14:38+0200\n"
 "Last-Translator: Laszlo Karolyi <EMAIL@ADDRESS>\n"
 "Language-Team: English\n"
@@ -17,7 +17,216 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: scripts/app.js:10
+#: scripts/datetime.js:67
+msgid "%4$s, %2$s %3$s, %1$d, %5$02d:%6$02d:%7$02d %10$s"
+msgstr ""
+
+#: scripts/datetime.js:86
+msgid "less then a minute ago"
+msgstr ""
+
+#: scripts/datetime.js:89
+#, python-format
+msgid "%d minute ago"
+msgid_plural "%d minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: scripts/datetime.js:92
+msgid "about an hour ago"
+msgstr ""
+
+#: scripts/datetime.js:97
+#, python-format
+msgid "%d hour ago"
+msgid_plural "%s hours ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: scripts/datetime.js:100
+msgid "Yesterday at %1$02d:%2$02d"
+msgstr ""
+
+#: scripts/datetime.js:108
+msgid "%1$s at %2$02d:%3$02d"
+msgstr ""
+
+#: scripts/datetime.js:117
+msgid "%1$s %2$d at %3$02d:%4$02d"
+msgstr ""
+
+#: scripts/datetime.js:126
+msgid "%2$s %3$d, %1$d"
+msgstr ""
+
+#: scripts/datetime.js:182
+msgid "Sun"
+msgstr ""
+
+#: scripts/datetime.js:183
+msgid "Mon"
+msgstr ""
+
+#: scripts/datetime.js:184
+msgid "Tue"
+msgstr ""
+
+#: scripts/datetime.js:185
+msgid "Wed"
+msgstr ""
+
+#: scripts/datetime.js:186
+msgid "Thu"
+msgstr ""
+
+#: scripts/datetime.js:187
+msgid "Fri"
+msgstr ""
+
+#: scripts/datetime.js:188
+msgid "Sat"
+msgstr ""
+
+#: scripts/datetime.js:191
+msgid "Sunday"
+msgstr ""
+
+#: scripts/datetime.js:192
+msgid "Monday"
+msgstr ""
+
+#: scripts/datetime.js:193
+msgid "Tuesday"
+msgstr ""
+
+#: scripts/datetime.js:194
+msgid "Wednesday"
+msgstr ""
+
+#: scripts/datetime.js:195
+msgid "Thursday"
+msgstr ""
+
+#: scripts/datetime.js:196
+msgid "Friday"
+msgstr ""
+
+#: scripts/datetime.js:197
+msgid "Saturday"
+msgstr ""
+
+#: scripts/datetime.js:202
+msgid "Jan"
+msgstr ""
+
+#: scripts/datetime.js:203
+msgid "Feb"
+msgstr ""
+
+#: scripts/datetime.js:204
+msgid "Mar"
+msgstr ""
+
+#: scripts/datetime.js:205
+msgid "Apr"
+msgstr ""
+
+#: scripts/datetime.js:206
+msgid "May_short"
+msgstr ""
+
+#: scripts/datetime.js:207
+msgid "Jun"
+msgstr ""
+
+#: scripts/datetime.js:208
+msgid "Jul"
+msgstr ""
+
+#: scripts/datetime.js:209
+msgid "Aug"
+msgstr ""
+
+#: scripts/datetime.js:210
+msgid "Sep"
+msgstr ""
+
+#: scripts/datetime.js:211
+msgid "Oct"
+msgstr ""
+
+#: scripts/datetime.js:212
+msgid "Nov"
+msgstr ""
+
+#: scripts/datetime.js:213
+msgid "Dec"
+msgstr ""
+
+#: scripts/datetime.js:216
+msgid "January"
+msgstr ""
+
+#: scripts/datetime.js:217
+msgid "February"
+msgstr ""
+
+#: scripts/datetime.js:218
+msgid "March"
+msgstr ""
+
+#: scripts/datetime.js:219
+msgid "April"
+msgstr ""
+
+#: scripts/datetime.js:220
+msgid "May"
+msgstr ""
+
+#: scripts/datetime.js:221
+msgid "June"
+msgstr ""
+
+#: scripts/datetime.js:222
+msgid "July"
+msgstr ""
+
+#: scripts/datetime.js:223
+msgid "August"
+msgstr ""
+
+#: scripts/datetime.js:224
+msgid "September"
+msgstr ""
+
+#: scripts/datetime.js:225
+msgid "October"
+msgstr ""
+
+#: scripts/datetime.js:226
+msgid "November"
+msgstr ""
+
+#: scripts/datetime.js:227
+msgid "December"
+msgstr ""
+
+#: scripts/router.js:24
+msgid "Topic list"
+msgstr ""
+
+#: scripts/views/TopicGroup.js:25
+msgid "Forward"
+msgstr ""
+
+#: scripts/views/TopicGroup.js:26
+msgid "Backward"
+msgstr ""
+
+#: scripts/views/TopicGroup.js:31
+msgid "Load topic list"
+msgstr ""
+
 #, fuzzy
-msgid "test2cucc"
-msgstr "cucctest2sd3"
+#~ msgid "test2cucc"
+#~ msgstr "cucctest2sd3"

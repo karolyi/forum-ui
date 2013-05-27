@@ -1,5 +1,5 @@
 /*global define */
-define(['jquery', 'backboneWebapp'], function ($, backboneWebapp) {
+define(['jquery', 'BackboneWebapp'], function ($, BackboneWebapp) {
   'use strict';
   var sidebarSetup = {
     init: function () {
@@ -18,12 +18,12 @@ define(['jquery', 'backboneWebapp'], function ($, backboneWebapp) {
         console.log($(this).attr('data-langid'));
         $(this).blur();
       };
-      for (var key in backboneWebapp.configuration.languageObj) {
+      for (var key in BackboneWebapp.configuration.languageObj) {
         var menuLink = $('<a>', {
           href: '#',
           click: menuClickCallback,
           'data-langid': key,
-        }).text(backboneWebapp.configuration.languageObj[key]);
+        }).text(BackboneWebapp.configuration.languageObj[key]);
         dropdownMenu.append($('<li>').append(menuLink));
       }
     }

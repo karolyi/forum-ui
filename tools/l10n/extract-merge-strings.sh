@@ -20,7 +20,9 @@ else
 fi
 
 # Extract the messages to template
+
 cd $MYDIR
+find scripts -type f -name .DS_Store -delete
 $XGETTEXT --language=Python --force-po -o languages/messages.pot $(find scripts -type f|grep -v "vendor/")
 
 cd languages

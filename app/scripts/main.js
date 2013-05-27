@@ -1,19 +1,29 @@
 require.config({
   paths: {
     jquery: '../components/jquery/jquery',
-    bootstrap: 'vendor/bootstrap',
+    bootstrap: '../components/sass-bootstrap/bootstrap/js/bootstrap',
     'jquery-ui': '../components/jquery-ui/ui/jquery-ui',
     jed: '../components/jed/jed',
     text: '../components/requirejs-text/text',
     underscore: '../components/underscore-amd/underscore',
-    backbone: '../components/backbone-amd/backbone',
+    Backbone: '../components/backbone-amd/backbone',
+    BackboneRel: '../components/backbone-relational/backbone-relational',
     hbs: '../components/require-handlebars-plugin/hbs',
-    jStorage: '../components/jStorage/jstorage'
+    jStorage: '../components/jStorage/jstorage',
+    qtip2: '../components/qtip2/dist/jquery.qtip'
   },
   shim: {
+    // For the time being, we load ui here so the bootstrap overwrites it (tooltip problems)
+    // https://github.com/twitter/bootstrap/issues/7385
     bootstrap: {
-      deps: ['jquery'],
+      deps: ['jquery', 'jquery-ui'],
       exports: 'jQuery'
+    },
+    Backbone: {
+      deps: ['underscore'],
+    },
+    BackboneRel: {
+      deps: ['underscore', 'Backbone']
     },
     'jquery-ui': {
       deps: ['jquery']
@@ -21,6 +31,9 @@ require.config({
     jStorage: {
       deps: ['jquery'],
       exports: 'jQuery.jStorage'
+    },
+    qtip2: {
+      deps: ['jquery']
     }
   }
 });

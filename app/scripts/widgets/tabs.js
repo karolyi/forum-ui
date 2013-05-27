@@ -1,8 +1,7 @@
 /* global define */
-define(['jquery', 'backboneWebapp'], function ($, backboneWebapp) {
+define(['jquery', 'BackboneWebapp'], function ($, BackboneWebapp) {
   'use strict';
   var confGuiState;
-  var tabs = {};
 
   var openTab = function (tabName) {
     console.debug('opening', tabName);
@@ -14,7 +13,7 @@ define(['jquery', 'backboneWebapp'], function ($, backboneWebapp) {
   };
 
   var init = function () {
-    confGuiState = backboneWebapp.configuration.guiState;
+    confGuiState = BackboneWebapp.configuration.guiState;
     $.each(confGuiState.tabList, function (index, element) {
       openTab(element);
     });

@@ -1,5 +1,5 @@
 /* global define */
-define(['jquery', 'backboneWebapp'], function ($, backboneWebapp) {
+define(['jquery', 'BackboneWebapp'], function ($, BackboneWebapp) {
   'use strict';
   var socket;
   var subscribedPaths = {};
@@ -53,7 +53,7 @@ define(['jquery', 'backboneWebapp'], function ($, backboneWebapp) {
   var authenticate = function (isFirstTime) {
     var urlPart = isFirstTime ? 'auth' : 'heartbeat';
     $.ajax({
-      url: backboneWebapp.configuration.apiHost + '/socket/' + urlPart + '/' + socket.socket.sessionid,
+      url: BackboneWebapp.configuration.apiHost + '/socket/' + urlPart + '/' + socket.socket.sessionid,
       xhrFields: {
         withCredentials: true
       },
@@ -72,7 +72,7 @@ define(['jquery', 'backboneWebapp'], function ($, backboneWebapp) {
     if (authIntervalId === undefined) {
       authIntervalId = setInterval(function () {
         authenticate(false);
-      }, backboneWebapp.configuration.socketAuthInterval * 1000);
+      }, BackboneWebapp.configuration.socketAuthInterval * 1000);
     }
   };
 
@@ -88,8 +88,8 @@ define(['jquery', 'backboneWebapp'], function ($, backboneWebapp) {
   };
 
   var init = function () {
-    require([backboneWebapp.configuration.socketServerUrl + '/socket.io/socket.io.js'], function (io) {
-      socket = io.connect(backboneWebapp.configuration.socketServerUrl);
+    require([BackboneWebapp.configuration.socketServerUrl + '/socket.io/socket.io.js'], function (io) {
+      socket = io.connect(BackboneWebapp.configuration.socketServerUrl);
       socket.on('connect', _onConnect);
       socket.on('path-event', _onEventPath);
       socket.on('global-event', _onEventGlobal);

@@ -1,7 +1,7 @@
 /* global define */
-define(['backbone', 'backboneWebapp', 'models/bookmark'], function (backbone, backboneWebapp, bookmark) {
+define(['Backbone', 'BackboneWebapp', 'models/Bookmark'], function (Backbone, BackboneWebapp, Bookmark) {
   'use strict';
-  return backbone.Collection.extend({
-    model: bookmark
+  return Backbone.Collection.extend({
+    model: Bookmark
   });
 });

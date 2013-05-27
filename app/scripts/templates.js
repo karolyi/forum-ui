@@ -1,5 +1,5 @@
 /* global define */
-define(['jquery', 'loadFile', 'backboneWebapp'], function ($, loadFile, backboneWebapp) {
+define(['jquery', 'loadFile', 'BackboneWebapp'], function ($, loadFile, BackboneWebapp) {
   'use strict';
 
   var templateDefers = {};
@@ -7,7 +7,7 @@ define(['jquery', 'loadFile', 'backboneWebapp'], function ($, loadFile, backbone
   var get = function (templateName) {
     if (templateDefers[templateName] === undefined) {
       templateDefers[templateName] = $.Deferred();
-      $.when(loadFile('/skins/' + backboneWebapp.configuration.usedSkin + '/templates/' + templateName))
+      $.when(loadFile('/skins/' + BackboneWebapp.configuration.usedSkin + '/templates/' + templateName))
       .then(function (templateContent) {
         templateDefers[templateName].resolve(templateContent);
       });

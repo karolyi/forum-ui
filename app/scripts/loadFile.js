@@ -1,16 +1,16 @@
 /*global define */
-define(['jquery', 'jStorage', 'backboneWebapp'], function ($, jStorage, backboneWebapp) {
+define(['jquery', 'jStorage', 'BackboneWebapp'], function ($, jStorage, BackboneWebapp) {
   'use strict';
   /**
-   * Load a file from any given url, but check if it's already in local cache
+   * Load a file from any given url, but check if it is already in local cache
    * @param  {string} url      the url to load
    * @param  {string} dataType the dataType to enforce (@see jQuery.ajax dataType)
    * @return {object}          a deferred object, resolves with the file when ready, or rejects with the error message when fails
    */
   var setLocal = function (url, data) {
-    if (jStorage.get('cacheKey') !== backboneWebapp.configuration.cacheKey) {
+    if (jStorage.get('cacheKey') !== BackboneWebapp.configuration.cacheKey) {
       jStorage.flush();
-      jStorage.set('cacheKey', backboneWebapp.configuration.cacheKey);
+      jStorage.set('cacheKey', BackboneWebapp.configuration.cacheKey);
     }
     jStorage.set(url, data);
   };
@@ -43,16 +43,16 @@ define(['jquery', 'jStorage', 'backboneWebapp'], function ($, jStorage, backbone
 
   var loadFromLocalStorage = function (url) {
     var jsCacheKey = jStorage.get('cacheKey');
-    if (jsCacheKey === backboneWebapp.configuration.cacheKey) {
-      return jStorage.get(url, undefined);
+    if (jsCacheKey === BackboneWebapp.configuration.cacheKey) {
+      return jStorage.get(url);
     }
-    return undefined;
+    return null;
   };
 
   var startLoading = function (url, dataType, deferObj) {
     // Try from localstorage
     var returnVar = loadFromLocalStorage(url);
-    if (returnVar !== undefined) {
+    if (returnVar !== null) {
       deferObj.resolve(returnVar);
       return;
     }

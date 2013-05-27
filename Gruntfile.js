@@ -44,6 +44,7 @@ module.exports = function (grunt) {
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.app %>/skins/*/images/*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= yeoman.app %>/skins/*/templates/*',
           '<%= yeoman.app %>/languages/*/*.po'
         ],
         tasks: ['shell:compilePo', 'livereload']
@@ -52,6 +53,12 @@ module.exports = function (grunt) {
     shell: {
       compilePo: {
         command: 'tools/l10n/compile.sh',
+        options: {
+          stdout: true
+        }
+      },
+      compileSassBootstrap: {
+        command: 'tools/sass-bootstrap/compile.sh',
         options: {
           stdout: true
         }
@@ -208,9 +215,9 @@ module.exports = function (grunt) {
         files: {
           src: [
             '<%= yeoman.dist %>/scripts/{,*/}*.js',
-            '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
+            // '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
+            // '<%= yeoman.dist %>/skins/*/images/*.{png,jpg,jpeg,gif,webp}',
             '<%= yeoman.dist %>/skins/*/styles/*.css',
-            '<%= yeoman.dist %>/skins/*/images/*.{png,jpg,jpeg,gif,webp}',
             '<%= yeoman.dist %>/skins/*/fonts/*'
           ]
         }
@@ -234,7 +241,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.{png,jpg,jpeg}',
+          src: '{,*/,*/*/,*/*/*/}*.{png,jpg,jpeg}',
           dest: '<%= yeoman.dist %>/images'
         }]
       }
@@ -291,9 +298,9 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,txt}',
             '.htaccess',
-            'images/{,*/}*.{webp,gif}',
+            'images/{,*/,*/*/}*.{webp,gif,jpg,jpeg}',
             'skins/{,*/}backgrounds/*',
-            'skins/{,*/}images/*',
+            'skins/{,*/}images/{,*/}*',
             'skins/{,*/}fonts/*',
             'skins/{,*/}templates/*',
             'languages/*/*.json'
@@ -337,6 +344,8 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'shell:compileSassBootstrap',
+      'shell:compilePo',
       'concurrent:server',
       'livereload-start',
       'configureRewriteRules',
@@ -356,6 +365,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'useminPrepare',
+    'shell:compileSassBootstrap',
     'shell:compilePo',
     'concurrent:dist',
     'requirejs',

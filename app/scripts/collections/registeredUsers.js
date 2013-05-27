@@ -1,7 +1,7 @@
 /* global define */
-define(['backbone', 'backboneWebapp', 'models/registeredUser'], function (backbone, backboneWebapp, registeredUser) {
+define(['Backbone','models/RegisteredUser'], function (Backbone, RegisteredUser) {
   'use strict';
-  return backbone.Collection.extend({
-    model: registeredUser
+  return Backbone.Collection.extend({
+    model: RegisteredUser
   });
 });
