@@ -31,11 +31,41 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'i18n', 'datetime']
       this.$('.button-launch').text(i18n.gettext('Load topic list'));
     },
 
+    _adjustTooltip: function (tooltip) {
+      var tip = tooltip.tip();
+      var pos = tooltip.getPosition();
+
+      var actualWidth = tip[0].offsetWidth;
+      var actualHeight = tip[0].offsetHeight;
+      var tp;
+
+      switch (tooltip.options.placement) {
+      case 'bottom':
+        tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
+        break;
+      case 'top':
+        tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2};
+        break;
+      case 'left':
+        tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth};
+        break;
+      case 'right':
+        tp = {top: pos.top + (pos.height / 2) - (actualHeight / 2), left: pos.left + pos.width};
+        break;
+      }
+      tooltip.applyPlacement(tp, tooltip.options.placement);
+    },
+
     _drawTopicList: function (parentElement) {
+      var self = this;
       $.each(this.options.topicTypeData, function (index, element) {
         var template = $(itemTemplate);
         template.find('.topic-name').html(element.htmlName).tooltip({
           title: function () {
+            var myDiv = this;
+            setTimeout(function () {
+              self._adjustTooltip($(myDiv).data('tooltip'));
+            }, 50);
             return element.currParsedCommentText;
           },
           html: true,
