@@ -55,7 +55,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp'], function ($, Backbone, Backbone
             return self.model.get('currParsedCommentText');
           },
           html: true,
-          placement: 'right'
+          placement: 'top'
         });
       });
     }
