@@ -87,9 +87,12 @@ body {
       background: url('../images/marble-opaque-bg.png') repeat repeat;
       @include border-bottom-left-radius($tabContentRadius);
       @include border-bottom-right-radius($tabContentRadius);
-      .last-commenter-name,
-      .last-comment-date {
-        text-align: center;
+      .topic-list-item {
+        list-style-type: none;
+        .last-commenter-name,
+        .last-comment-date {
+          text-align: center;
+        }
       }
     }
   }
