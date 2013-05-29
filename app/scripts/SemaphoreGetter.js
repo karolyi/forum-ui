@@ -1,5 +1,5 @@
 /* global define */
-define(['jquery'], function ($) {
+define(['jquery', 'BackboneWebapp'], function ($, BackboneWebapp) {
   'use strict';
   var SemaphoreGetter = function (options) {
     this.init(options);
@@ -22,7 +22,10 @@ define(['jquery'], function ($) {
   SemaphoreGetter.prototype.acquire = function () {
     if (this.semaphore === undefined) {
       this._createNew();
+    } else {
+      this.semaphore.permits++;
     }
+    // console.log('acquire', this.url, this.semaphore.permits);
   };
 
   SemaphoreGetter.prototype.addId = function(id) {
@@ -37,6 +40,7 @@ define(['jquery'], function ($) {
     if (this.semaphore.permits-- === 1) {
       this._launchGet();
     }
+    // console.log('release', this.url, actualSemaphore.permits);
     return actualSemaphore;
   };
 
@@ -44,24 +48,28 @@ define(['jquery'], function ($) {
     var self = this;
     var actualSemaphore = this.semaphore;
     this.semaphore = undefined;
-    this.sentSemaphores.push(actualSemaphore);
-    var url = this.url + actualSemaphore.idList.join(',');
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      xhrFields: {
-        withCredentials: true
-      },
-      success: function (data) {
-        self.successCallback(data);
-        actualSemaphore.deferredObj.resolve();
-        self.sentSemaphores.splice(self.sentSemaphores.indexOf(actualSemaphore), 1);
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        actualSemaphore.deferredObj.fail(errorThrown);
-        console.error('Failed to retrieve url:', url, ':', errorThrown);
-      }
-    });
+    if (actualSemaphore.idList.length > 0) {
+      this.sentSemaphores.push(actualSemaphore);
+      var url = BackboneWebapp.configuration.apiHost + this.url + actualSemaphore.idList.join(',');
+      $.ajax({
+        url: url,
+        dataType: 'json',
+        xhrFields: {
+          withCredentials: true
+        },
+        success: function (data) {
+          self.successCallback(data);
+          actualSemaphore.deferredObj.resolve();
+          self.sentSemaphores.splice(self.sentSemaphores.indexOf(actualSemaphore), 1);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          actualSemaphore.deferredObj.fail(errorThrown);
+          console.error('Failed to retrieve url:', url, ':', errorThrown);
+        }
+      });
+    } else {
+      actualSemaphore.deferredObj.resolve([]);
+    }
   };
 
   return SemaphoreGetter;

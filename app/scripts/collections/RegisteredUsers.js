@@ -11,7 +11,6 @@ define(['Backbone','models/RegisteredUser', 'SemaphoreGetter'], function (Backbo
           self.add(data);
         }
       });
-      Backbone.Collection.apply(this, arguments);
     },
 
     comparator: function (user) {

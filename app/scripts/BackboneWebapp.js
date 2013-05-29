@@ -11,21 +11,27 @@ define(['jquery'], function ($) {
         'models/Topic',
         'models/Bookmark',
         'collections/Bookmarks',
-        'collections/Topics'
+        'collections/Topics',
+        'views/TopicName',
+        'views/UserName'
       ], function (
         RegisteredUser,
         RegisteredUsers,
         Topic,
         Bookmark,
         Bookmarks,
-        Topics
+        Topics,
+        TopicName,
+        UserName
       ) {
         self.models.RegisteredUser = RegisteredUser;
-        self.collections.RegisteredUsers = RegisteredUsers;
+        self.collections.registeredUsers = new RegisteredUsers();
         self.models.Topic = Topic;
         self.models.Bookmark = Bookmark;
         self.collections.Bookmarks = Bookmarks;
         self.collections.topics = new Topics();
+        self.views.TopicName = TopicName;
+        self.views.UserName = UserName;
         deferObj.resolve();
       });
       return deferObj.promise();

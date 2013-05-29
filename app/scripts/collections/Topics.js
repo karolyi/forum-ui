@@ -11,7 +11,6 @@ define(['Backbone', 'models/Topic', 'SemaphoreGetter'], function (Backbone, Topi
           self.add(data);
         }
       });
-      Backbone.Collection.apply(this, arguments);
     },
 
     comparator: function (topic) {
@@ -20,9 +19,10 @@ define(['Backbone', 'models/Topic', 'SemaphoreGetter'], function (Backbone, Topi
 
     getDeferred: function (topicId) {
       var returnValue = this.get(topicId);
-      if (!returnValue) {
+      if (returnValue === undefined) {
         return this.semaphoreGetter.addId(topicId);
       }
+      return returnValue;
     }
   });
   return Topics;

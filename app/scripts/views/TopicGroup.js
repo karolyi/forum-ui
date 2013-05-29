@@ -4,10 +4,17 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'i18n', 'datetime']
   var topicGroupTemplate;
   var loadLaunchTemplate;
   var itemTemplate;
-  var adjustTimeout;
 
-  var TopicIndex = Backbone.View.extend({
+  var TopicGroup = Backbone.View.extend({
     initialize: function () {
+      BackboneWebapp.collections.topics.semaphoreGetter.acquire();
+      BackboneWebapp.collections.registeredUsers.semaphoreGetter.acquire();
+      this.viewsArray = [];
+      if (topicGroupTemplate && loadLaunchTemplate && itemTemplate) {
+        this._continueInit();
+        BackboneWebapp.collections.topics.semaphoreGetter.release();
+        BackboneWebapp.collections.registeredUsers.semaphoreGetter.release();
+      }
       var self = this;
       $.when(
         topicGroupTemplate || templates.get('topicGroup.html'),
@@ -18,75 +25,39 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'i18n', 'datetime']
         loadLaunchTemplate = loadLaunch;
         itemTemplate = topicListItem;
         self._continueInit();
+        BackboneWebapp.collections.topics.semaphoreGetter.release();
+        BackboneWebapp.collections.registeredUsers.semaphoreGetter.release();
       });
     },
 
     _initTemplate: function () {
       this.$el.append(topicGroupTemplate);
-      this.$('.paginate-forward').text(i18n.gettext('Forward'));
-      this.$('.paginate-backward').text(i18n.gettext('Backward'));
+      this.forwardButton = this.$('.paginate-forward').text(i18n.gettext('Forward'));
+      this.backwardButton = this.$('.paginate-backward').text(i18n.gettext('Backward'));
     },
 
     _initLauncher: function () {
       this.$el.append(loadLaunchTemplate);
-      this.$('.button-launch').text(i18n.gettext('Load topic list'));
-    },
-
-    _adjustTooltip: function (tooltip) {
-      var self = this;
-      console.log('_adjustTooltip');
-      adjustTimeout = null;
-      var tip = tooltip.tip();
-      if (tip.hasClass('in')){
-        var pos = tooltip.getPosition();
-        var actualWidth = tip[0].offsetWidth;
-        var actualHeight = tip[0].offsetHeight;
-        var tp;
-        switch (tooltip.options.placement) {
-        case 'bottom':
-          tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
-          break;
-        case 'top':
-          tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2};
-          break;
-        case 'left':
-          tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth};
-          break;
-        case 'right':
-          tp = {top: pos.top + (pos.height / 2) - (actualHeight / 2), left: pos.left + pos.width};
-          break;
-        }
-        tooltip.applyPlacement(tp, tooltip.options.placement);
-        adjustTimeout = setTimeout(function () {
-          self._adjustTooltip(tooltip);
-        }, 1000);
-      }
+      this.launchButton = this.$('.button-launch').text(i18n.gettext('Load topic list'));
     },
 
     _drawTopicList: function (parentElement) {
       var self = this;
       $.each(this.options.topicTypeData, function (index, element) {
         var template = $(itemTemplate);
-        template.find('.topic-name').html(element.htmlName).tooltip({
-          title: function () {
-            var myDiv = this;
-            if (adjustTimeout) {
-              clearTimeout(adjustTimeout);
-            }
-            adjustTimeout = setTimeout(function () {
-              self._adjustTooltip($(myDiv).data('tooltip'));
-            }, 100);
-            return element.currParsedCommentText;
-          },
-          html: true,
-          placement: 'right'
-        });
+        self.viewsArray.push(new BackboneWebapp.views.TopicName({
+          el: template.find('.topic-name'),
+          topicId: element.id
+        }));
         template.find('.comment-count').text(element.commentCount);
         template.find('.last-comment-date').dateTime({
           time: element.currCommentTime
         });
+        self.viewsArray.push(new BackboneWebapp.views.UserName({
+          el: template.find('.last-commenter-name'),
+          userId: element.lastCommenterId
+        }));
         parentElement.append(template);
-        // $.when()
       });
     },
 
@@ -99,13 +70,20 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'i18n', 'datetime']
       if (this.options.topicType === topicTypes.topicNormal && this.options.bookmarked && (!BackboneWebapp.configuration.sessionSettings.bookmarkedTopicsFirst || this.options.topicTypeData === undefined)) {
         return;
       }
-      if (this.options.topicType === topicTypes.topicArchived && !BackboneWebapp.configuration.userSettings.showArchivedTopics) {
+      if (this.options.topicType === topicTypes.topicArchived && !BackboneWebapp.configuration.sessionSettings.showArchivedTopics) {
         this._initLauncher();
         return;
       }
       this._initTemplate();
       this._drawTopicList(this.$('.list-wrapper'));
+    },
+
+    remove: function () {
+      $.each(this.viewsArray, function (index, element) {
+        element.remove();
+      });
+      Backbone.View.prototype.remove.apply(this, arguments);
     }
   });
-  return TopicIndex;
+  return TopicGroup;
 });

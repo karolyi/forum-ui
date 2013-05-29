@@ -15,6 +15,8 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'views/TopicGroup', 'templates']
         var elBookmarked = self.$('.topic-bookmarked');
         var elNotBookmarked = self.$('.topic-not-bookmarked');
         var elArchived = self.$('.topic-archived');
+        BackboneWebapp.collections.topics.semaphoreGetter.acquire();
+        BackboneWebapp.collections.registeredUsers.semaphoreGetter.acquire();
         self.topicHighlighted = new TopicGroup({
           topicType: BackboneWebapp.configuration.topicTypes.topicHighlighted,
           topicTypeData: self.options.topicTypeData.topicHighlighted,
@@ -37,6 +39,8 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'views/TopicGroup', 'templates']
           topicTypeData: self.options.topicTypeData.topicArchived,
           el: elArchived
         });
+        BackboneWebapp.collections.topics.semaphoreGetter.release();
+        BackboneWebapp.collections.registeredUsers.semaphoreGetter.release();
       });
     }
   });
