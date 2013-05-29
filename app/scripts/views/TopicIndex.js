@@ -4,11 +4,30 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'views/TopicGroup', 'templates']
   var topicListTabContent;
 
   var TopicIndex = Backbone.View.extend({
+    loadTopicList: function () {
+      var deferObj = $.Deferred();
+      $.ajax({
+        url: BackboneWebapp.configuration.apiHost + '/topic/index',
+        dataType: 'json',
+        xhrFields: {
+          withCredentials: true
+        },
+        success: function (data) {
+          BackboneWebapp.configuration.topicTypes = data.types;
+          // bookmarks = data.bookmarks;
+          // limit = data.limit;
+          deferObj.resolve(data.topics);
+        }
+      });
+      return deferObj.promise();
+    },
+
     initialize: function () {
       var self = this;
       $.when(
-        topicListTabContent || templates.get('topicListTabContent.html')
-      ).then(function (tabContent) {
+        topicListTabContent || templates.get('topicListTabContent.html'),
+        this.loadTopicList()
+      ).then(function (tabContent, topicTypeData) {
         topicListTabContent = tabContent;
         self.$el.append(topicListTabContent);
         var elHighlighted = self.$('.topic-highlighted');
@@ -19,24 +38,24 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'views/TopicGroup', 'templates']
         BackboneWebapp.collections.registeredUsers.semaphoreGetter.acquire();
         self.topicHighlighted = new TopicGroup({
           topicType: BackboneWebapp.configuration.topicTypes.topicHighlighted,
-          topicTypeData: self.options.topicTypeData.topicHighlighted,
+          topicTypeData: topicTypeData.topicHighlighted,
           el: elHighlighted
         });
         self.topicBookmarked = new TopicGroup({
           topicType: BackboneWebapp.configuration.topicTypes.topicNormal,
           bookmarked: true,
-          topicTypeData: self.options.topicTypeData.topicBookmarked,
+          topicTypeData: topicTypeData.topicBookmarked,
           el: elBookmarked
         });
         self.topicNotBookmarkedOrNormal = new TopicGroup({
           topicType: BackboneWebapp.configuration.topicTypes.topicNormal,
           bookmarked: false,
-          topicTypeData: self.options.topicTypeData.topicNotBookmarked || self.options.topicTypeData.topicNormal,
+          topicTypeData: topicTypeData.topicNotBookmarked || topicTypeData.topicNormal,
           el: elNotBookmarked
         });
         self.topicArchived = new TopicGroup({
           topicType: BackboneWebapp.configuration.topicTypes.topicArchived,
-          topicTypeData: self.options.topicTypeData.topicArchived,
+          topicTypeData: topicTypeData.topicArchived,
           el: elArchived
         });
         BackboneWebapp.collections.topics.semaphoreGetter.release();

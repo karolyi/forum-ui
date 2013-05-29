@@ -12,6 +12,7 @@ $borderRadiusLarge: 4px;
 $borderRadiusSmall: 1px;
 
 @import 'sass-bootstrap/lib/bootstrap';
+@import 'sass-bootstrap/lib/responsive';
 // @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700);
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700&subset=latin,latin-ext);
 
@@ -86,6 +87,10 @@ body {
       background: url('../images/marble-opaque-bg.png') repeat repeat;
       @include border-bottom-left-radius($tabContentRadius);
       @include border-bottom-right-radius($tabContentRadius);
+      .last-commenter-name,
+      .last-comment-date {
+        text-align: center;
+      }
     }
   }
 }

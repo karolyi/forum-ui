@@ -40,7 +40,8 @@ define(['jquery'], function ($) {
     models: {},
     collections: {},
     configuration: {},
-    topicTypes: {}
+    topicTypes: {},
+    widgetInstancesArray: []
   };
 
   return webapp;

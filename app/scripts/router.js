@@ -29,11 +29,12 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
           id: myRandom
         });
         tabContentWrapper.append(contentWrapper);
-        require(['widgets/topicList'], function (topicList) {
-          topicList.init({
+        require(['views/TopicIndex'], function (TopicIndex) {
+          var topicIndex = new TopicIndex({
             navTab: indexTab,
-            contentWrapper: contentWrapper
+            el: contentWrapper
           });
+          contentWrapper.data('widgetInstance', topicIndex);
         });
       }
       indexTab.click();

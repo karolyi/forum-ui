@@ -4,6 +4,7 @@ define(['Backbone','models/RegisteredUser', 'SemaphoreGetter'], function (Backbo
   return Backbone.Collection.extend({
     model: RegisteredUser,
     constructor: function () {
+      Backbone.Collection.prototype.constructor.apply(this, arguments);
       var self = this;
       this.semaphoreGetter = new SemaphoreGetter({
         url: '/user/get/',

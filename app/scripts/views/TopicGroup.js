@@ -55,7 +55,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'i18n', 'datetime']
         });
         self.viewsArray.push(new BackboneWebapp.views.UserName({
           el: template.find('.last-commenter-name'),
-          userId: element.lastCommenterId
+          userId: element.currCommentOwnerId
         }));
         parentElement.append(template);
       });
@@ -63,7 +63,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'i18n', 'datetime']
 
     _continueInit: function () {
       var topicTypes = BackboneWebapp.configuration.topicTypes;
-      if (this.options.topicTypeData) {
+      if (this.options.topicTypeData && this.options.topicTypeData.length > 0) {
         BackboneWebapp.collections.topics.add(this.options.topicTypeData);
       }
       // When bookmarked topics, and either non-separated showup or no bookmarked topics

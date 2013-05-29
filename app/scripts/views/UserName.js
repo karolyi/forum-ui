@@ -55,7 +55,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp'], function ($, Backbone, Backbone
             return self.model.get('quote');
           },
           html: false,
-          placement: 'right'
+          placement: 'top'
         });
       });
     }

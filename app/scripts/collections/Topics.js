@@ -4,6 +4,7 @@ define(['Backbone', 'models/Topic', 'SemaphoreGetter'], function (Backbone, Topi
   var Topics = Backbone.Collection.extend({
     model: Topic,
     constructor: function () {
+      Backbone.Collection.prototype.constructor.apply(this, arguments);
       var self = this;
       this.semaphoreGetter = new SemaphoreGetter({
         url: '/topic/get/',
