@@ -43,18 +43,28 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'i18n', 'datetime']
 
     _drawTopicList: function (parentElement) {
       var self = this;
+      BackboneWebapp.collections.topics.add(this.options.topicTypeData);
       $.each(this.options.topicTypeData, function (index, element) {
+        var model = BackboneWebapp.collections.topics.get(element.id);
         var template = $(itemTemplate);
+        var topicElement = template.find('.topic-name');
+        var commentCountElement = template.find('.comment-count');
+        var lastCommentDateElement = template.find('.last-comment-date');
+        var lastCommenterNameElement = template.find('.last-commenter-name');
+
         self.viewsArray.push(new BackboneWebapp.views.TopicName({
-          el: template.find('.topic-name'),
-          topicId: element.id
+          el: topicElement,
+          model: model,
+          onClick: function (model) {
+            BackboneWebapp.router.navigate('/topic/' + model.get('slug') + '/page/last/', {trigger: true});
+          }
         }));
-        template.find('.comment-count').text(element.commentCount);
-        template.find('.last-comment-date').dateTime({
+        commentCountElement.text(element.commentCount);
+        lastCommentDateElement.dateTime({
           time: element.currCommentTime
         });
         self.viewsArray.push(new BackboneWebapp.views.UserName({
-          el: template.find('.last-commenter-name'),
+          el: lastCommenterNameElement,
           userId: element.currCommentOwnerId
         }));
         parentElement.append(template);

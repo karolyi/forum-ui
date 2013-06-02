@@ -1,11 +1,18 @@
 /* global define */
-define(['jquery', 'Backbone', 'BackboneWebapp'], function ($, Backbone, BackboneWebapp) {
+define(['jquery', 'Backbone'], function ($, Backbone) {
   'use strict';
   var TopicName = Backbone.View.extend({
     initialize: function () {
       this.adjustTimeout = null;
       this.render();
-      return this;
+    },
+
+    options: {
+      showTooltip: true,
+      contentProperty: 'htmlName',
+      setHref: true,
+      handleClick: true,
+      onClick: $.noop
     },
 
     _adjustTooltip: function (tooltip) {
@@ -39,11 +46,9 @@ define(['jquery', 'Backbone', 'BackboneWebapp'], function ($, Backbone, Backbone
 
     render: function () {
       var self = this;
-      $.when(
-        BackboneWebapp.collections.topics.getDeferred(this.options.topicId)
-      ).then(function () {
-        self.model = BackboneWebapp.collections.topics.get(self.options.topicId);
-        self.$el.html(self.model.get('htmlName')).tooltip({
+      this.$el.html(this.model.get(this.options.contentProperty));
+      if (this.options.showTooltip) {
+        this.$el.tooltip({
           title: function () {
             var myDiv = this;
             if (self.adjustTimeout) {
@@ -57,7 +62,16 @@ define(['jquery', 'Backbone', 'BackboneWebapp'], function ($, Backbone, Backbone
           html: true,
           placement: 'top'
         });
-      });
+      }
+      if (this.options.setHref) {
+        this.$el.attr('href', '/topic/' + this.model.get('slug') + '/page/last/');
+      }
+      if (this.options.handleClick) {
+        this.$el.click(function (event) {
+          event.preventDefault();
+          return self.options.onClick(self.model);
+        });
+      }
     }
   });
   return TopicName;

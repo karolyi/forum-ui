@@ -18,10 +18,10 @@ define(['Backbone','models/RegisteredUser', 'SemaphoreGetter'], function (Backbo
       return user.get('name').toLocaleLowerCase();
     },
 
-    getDeferred: function (userId) {
-      var returnValue = this.get(userId);
-      if (!returnValue) {
-        return this.semaphoreGetter.addId(userId);
+    getDeferred: function (options) {
+      var returnValue = this.findWhere(options);
+      if (returnValue === undefined) {
+        return this.semaphoreGetter.addTerm(options);
       }
     }
   });

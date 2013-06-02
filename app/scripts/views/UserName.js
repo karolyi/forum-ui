@@ -40,7 +40,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp'], function ($, Backbone, Backbone
     render: function () {
       var self = this;
       $.when(
-        BackboneWebapp.collections.registeredUsers.getDeferred(this.options.userId)
+        BackboneWebapp.collections.registeredUsers.getDeferred({id: this.options.userId})
       ).then(function () {
         self.model = BackboneWebapp.collections.registeredUsers.get(self.options.userId);
         self.$el.html(self.model.get('name')).tooltip({

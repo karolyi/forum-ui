@@ -7,31 +7,43 @@ define(['jquery'], function ($) {
       var self = this;
       require([
         'models/RegisteredUser',
-        'collections/RegisteredUsers',
         'models/Topic',
         'models/Bookmark',
+        'models/Comment',
+        'collections/RegisteredUsers',
         'collections/Bookmarks',
         'collections/Topics',
+        'collections/Comments',
         'views/TopicName',
-        'views/UserName'
+        'views/UserName',
+        'views/CommentsInTopic',
+        'views/TopicComment'
       ], function (
         RegisteredUser,
-        RegisteredUsers,
         Topic,
         Bookmark,
+        Comment,
+        RegisteredUsers,
         Bookmarks,
         Topics,
+        Comments,
         TopicName,
-        UserName
+        UserName,
+        CommentsInTopic,
+        TopicComment
       ) {
         self.models.RegisteredUser = RegisteredUser;
-        self.collections.registeredUsers = new RegisteredUsers();
         self.models.Topic = Topic;
         self.models.Bookmark = Bookmark;
+        self.models.Comment = Comment;
+        self.collections.registeredUsers = new RegisteredUsers();
         self.collections.Bookmarks = Bookmarks;
         self.collections.topics = new Topics();
+        self.collections.Comments = Comments;
         self.views.TopicName = TopicName;
         self.views.UserName = UserName;
+        self.views.CommentsInTopic = CommentsInTopic;
+        self.views.TopicComment = TopicComment;
         deferObj.resolve();
       });
       return deferObj.promise();
@@ -41,6 +53,8 @@ define(['jquery'], function ($) {
     collections: {},
     configuration: {},
     topicTypes: {},
+    router: {},
+    topicCollections: {},
     widgetInstancesArray: []
   };
 

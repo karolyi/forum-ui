@@ -1,5 +1,5 @@
 /* global define */
-define(['jquery', 'BackboneWebapp'], function ($, BackboneWebapp) {
+define(['jquery', 'BackboneWebapp', 'underscore'], function ($, BackboneWebapp, _) {
   'use strict';
   var SemaphoreGetter = function (options) {
     this.init(options);
@@ -15,7 +15,7 @@ define(['jquery', 'BackboneWebapp'], function ($, BackboneWebapp) {
     this.semaphore = {
       permits: 1,
       deferredObj: $.Deferred(),
-      idList: []
+      termArray: []
     };
   };
 
@@ -28,9 +28,11 @@ define(['jquery', 'BackboneWebapp'], function ($, BackboneWebapp) {
     // console.log('acquire', this.url, this.semaphore.permits);
   };
 
-  SemaphoreGetter.prototype.addId = function(id) {
-    this.acquire();
-    this.semaphore.idList.push(id);
+  SemaphoreGetter.prototype.addTerm = function(options) {
+    if (_.size(options) > 0) {
+      this.acquire();
+      this.semaphore.termArray.push(options);
+    }
     return this.release().deferredObj.promise();
   };
 
@@ -48,17 +50,23 @@ define(['jquery', 'BackboneWebapp'], function ($, BackboneWebapp) {
     var self = this;
     var actualSemaphore = this.semaphore;
     this.semaphore = undefined;
-    if (actualSemaphore.idList.length > 0) {
+    if (actualSemaphore.termArray.length > 0) {
       this.sentSemaphores.push(actualSemaphore);
-      var url = BackboneWebapp.configuration.apiHost + this.url + actualSemaphore.idList.join(',');
+      var url = BackboneWebapp.configuration.apiHost + this.url;
       $.ajax({
         url: url,
         dataType: 'json',
+        type: 'POST',
+        data: JSON.stringify(actualSemaphore.termArray),
+        contentType : 'application/json',
         xhrFields: {
           withCredentials: true
         },
         success: function (data) {
-          self.successCallback(data);
+          if (data.errors.length > 0) {
+            console.error(data.errors.join('\n'));
+          }
+          self.successCallback(data.result);
           actualSemaphore.deferredObj.resolve();
           self.sentSemaphores.splice(self.sentSemaphores.indexOf(actualSemaphore), 1);
         },

@@ -3,27 +3,43 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
   'use strict';
   var navTabs = $('#forum-main-navtabs');
   var tabContentWrapper = $('#forum-main-tabcontent-wrapper');
+  var startupTime = true;
 
   var randomString = function () {
     return Math.random().toString(36).substring(2);
   };
 
+  var acquireAllLocks = function () {
+    BackboneWebapp.collections.topics.semaphoreGetter.acquire();
+    BackboneWebapp.collections.registeredUsers.semaphoreGetter.acquire();
+  };
+
+  var releaseAllLocks = function () {
+    BackboneWebapp.collections.topics.semaphoreGetter.release();
+    BackboneWebapp.collections.registeredUsers.semaphoreGetter.release();
+  };
+
   var Router = Backbone.Router.extend({
     routes: {
-      'index': 'index'
+      'topic/': 'topicIndex',
+      'topic/:slug/:action1/:parameter1/': 'topicComments'
     },
 
-    index: function () {
-      var indexTab = navTabs.find('[data-appname="/index"]');
+    topicIndex: function () {
+      var indexTab = navTabs.find('a[data-appname="topic"]');
       if (indexTab.length === 0) {
         var myRandom = randomString();
         indexTab = $('<a/>', {
           href: '#' + myRandom,
           'data-toggle': 'tab',
-          'data-appname': '/index',
+          'data-appname': 'topic',
           text: i18n.gettext('Topic list')
         });
-        navTabs.append($('<li/>').append(indexTab));
+        if (startupTime) {
+          navTabs.prepend($('<li/>').append(indexTab));
+        } else {
+          navTabs.append($('<li/>').append(indexTab));
+        }
         var contentWrapper = $('<div>', {
           'class': 'tab-pane',
           id: myRandom
@@ -37,33 +53,70 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
           contentWrapper.data('widgetInstance', topicIndex);
         });
       }
-      indexTab.click();
+      indexTab.tab('show');
+    },
+
+    topicComments: function () {
+      var runParameters = arguments;
+      var slug = runParameters[0];
+      var indexTab = navTabs.find('a[data-appname="topic/' + slug + '"]');
+      if (indexTab.length === 0) {
+        var myRandom = randomString();
+        indexTab = $('<a/>', {
+          href: '#' + myRandom,
+          'data-toggle': 'tab',
+          'data-appname': 'topic/' + slug
+        });
+        if (startupTime) {
+          navTabs.prepend($('<li/>').append(indexTab));
+        } else {
+          navTabs.append($('<li/>').append(indexTab));
+        }
+        var contentWrapper = $('<div>', {
+          'class': 'tab-pane',
+          id: myRandom
+        });
+        tabContentWrapper.append(contentWrapper);
+        require(['views/CommentsInTopic'], function (CommentsInTopic) {
+          var commentsInTopic = new CommentsInTopic({
+            navTab: indexTab,
+            el: contentWrapper,
+            arguments: runParameters
+          });
+          contentWrapper.data('widgetInstance', commentsInTopic);
+        });
+      } else {
+        indexTab.tab('show');
+      }
     }
   });
 
   var init = function () {
+    acquireAllLocks();
     Backbone.history.start({
       pushState: true
     });
     var origPathname = document.location.pathname;
     if (BackboneWebapp.configuration.guiState.tabList !== undefined) {
       $.each(BackboneWebapp.configuration.guiState.tabList, function (index, element) {
-        routerInstance.navigate(element, {
+        BackboneWebapp.router.navigate(element, {
           trigger: true
         });
       });
       if (document.location.pathname !== origPathname) {
-        routerInstance.navigate(origPathname, {
-          trigger: true
+        BackboneWebapp.router.navigate(origPathname, {
+          trigger: false
         });
       }
     } else {
-      routerInstance.navigate('/index');
+      BackboneWebapp.router.navigate('/index', {trigger: true});
     }
+    startupTime = false;
+    releaseAllLocks();
   };
 
-  var routerInstance = new Router();
-  // console.log(routerInstance);
+  BackboneWebapp.router = new Router();
+  // console.log(BackboneWebapp.router);
 
   return {
     init: init

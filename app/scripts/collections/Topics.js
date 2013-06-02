@@ -18,12 +18,8 @@ define(['Backbone', 'models/Topic', 'SemaphoreGetter'], function (Backbone, Topi
       return topic.get('pureName').toLocaleLowerCase();
     },
 
-    getDeferred: function (topicId) {
-      var returnValue = this.get(topicId);
-      if (returnValue === undefined) {
-        return this.semaphoreGetter.addId(topicId);
-      }
-      return returnValue;
+    getDeferred: function (options) {
+      return this.findWhere(options) || this.semaphoreGetter.addTerm(options);
     }
   });
   return Topics;

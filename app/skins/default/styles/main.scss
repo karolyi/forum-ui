@@ -78,8 +78,9 @@ body {
     margin-left: $navbarMinWidth;
     #forum-main-navtabs {
       li a {
-        max-width: 50px;
+        max-width: 80px;
         @include text-overflow();
+        cursor: pointer;
       }
       margin-bottom: 0;
     }
@@ -87,11 +88,44 @@ body {
       background: url('../images/marble-opaque-bg.png') repeat repeat;
       @include border-bottom-left-radius($tabContentRadius);
       @include border-bottom-right-radius($tabContentRadius);
-      .topic-list-item {
-        list-style-type: none;
-        .last-commenter-name,
-        .last-comment-date {
-          text-align: center;
+      .topic-index-tab {
+        .topic-highlighted,
+        .topic-bookmarked,
+        .topic-not-bookmarked,
+        .topic-archived {
+          border: 1px dashed black;
+          margin: 5px;
+          @include border-radius($borderRadiusLarge);
+          .pagination-wrapper {
+            // Insert styling here
+          }
+          &:empty {
+            display: none;
+          }
+        }
+        .list-wrapper {
+          margin: 0;
+          @include border-radius($borderRadiusLarge);
+          .topic-list-item {
+            margin-left: 0;
+            padding: 5px;
+            &:nth-child(even) {
+              background-color: rgba(255,255,255, 0.1);
+            }
+            &:nth-child(odd) {
+              background-color: rgba(0,0,0, 0.1);
+            }
+            list-style-type: none;
+            .topic-name {
+              // margin-left: 0;
+            }
+            .topic-name,
+            .comment-count,
+            .last-commenter-name,
+            .last-comment-date {
+              text-align: center;
+            }
+          }
         }
       }
     }
