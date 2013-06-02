@@ -10,6 +10,9 @@ define(['Backbone', 'models/Topic', 'SemaphoreGetter'], function (Backbone, Topi
         url: '/topic/get/',
         successCallback: function (data) {
           self.add(data);
+        },
+        beforeLaunchFilter: function (element) {
+          return !self.findWhere(element);
         }
       });
     },

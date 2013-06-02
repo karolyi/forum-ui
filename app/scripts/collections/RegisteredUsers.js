@@ -10,6 +10,9 @@ define(['Backbone','models/RegisteredUser', 'SemaphoreGetter'], function (Backbo
         url: '/user/get/',
         successCallback: function (data) {
           self.add(data);
+        },
+        beforeLaunchFilter: function (element) {
+          return !self.findWhere(element);
         }
       });
     },

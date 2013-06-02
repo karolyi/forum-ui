@@ -10,6 +10,9 @@ define(['jquery', 'Backbone', 'models/Comment', 'SemaphoreGetter', 'BackboneWeba
         url: '/comment/get/',
         successCallback: function (data) {
           self.add(data);
+        },
+        beforeLaunchFilter: function (element) {
+          return !self.findWhere(element);
         }
       });
     },

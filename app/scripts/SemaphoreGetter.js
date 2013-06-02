@@ -9,6 +9,7 @@ define(['jquery', 'BackboneWebapp', 'underscore'], function ($, BackboneWebapp, 
     this.sentSemaphores = [];
     this.url = options.url;
     this.successCallback = options.successCallback;
+    this.beforeLaunchFilter = options.beforeLaunchFilter;
   };
 
   SemaphoreGetter.prototype._createNew = function () {
@@ -48,6 +49,9 @@ define(['jquery', 'BackboneWebapp', 'underscore'], function ($, BackboneWebapp, 
 
   SemaphoreGetter.prototype._launchGet = function() {
     var self = this;
+    if ($.isFunction(this.beforeLaunchFilter)) {
+      this.semaphore.termArray = $.grep(this.semaphore.termArray, this.beforeLaunchFilter);
+    }
     var actualSemaphore = this.semaphore;
     this.semaphore = undefined;
     if (actualSemaphore.termArray.length > 0) {
