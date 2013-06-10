@@ -57,6 +57,12 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'i18n', 'datetime']
           model: model,
           onClick: function (model) {
             BackboneWebapp.router.navigate('/topic/' + model.get('slug') + '/page/last/', {trigger: true});
+          },
+          tooltipPlacement: function () {
+            if ($('body').width() < 720) {
+              return 'top';
+            }
+            return 'right';
           }
         }));
         commentCountElement.text(element.commentCount);

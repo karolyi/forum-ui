@@ -34,6 +34,9 @@ $borderRadiusSmall: 1px;
 body {
   font-weight: 300;
 }
+a {
+  font-weight: 400;
+}
 
 .body-background-wrapper {
   position: fixed;
@@ -113,7 +116,7 @@ body {
               background-color: rgba(255,255,255, 0.1);
             }
             &:nth-child(odd) {
-              background-color: rgba(0,0,0, 0.1);
+              background-color: rgba(100,100,100, 0.1);
             }
             list-style-type: none;
             .topic-name {

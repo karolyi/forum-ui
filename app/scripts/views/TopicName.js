@@ -12,7 +12,8 @@ define(['jquery', 'Backbone'], function ($, Backbone) {
       contentProperty: 'htmlName',
       setHref: true,
       handleClick: true,
-      onClick: $.noop
+      onClick: $.noop,
+      tooltipPlacement: 'top'
     },
 
     _adjustTooltip: function (tooltip) {
@@ -23,7 +24,11 @@ define(['jquery', 'Backbone'], function ($, Backbone) {
         var actualWidth = tip[0].offsetWidth;
         var actualHeight = tip[0].offsetHeight;
         var tp;
-        switch (tooltip.options.placement) {
+        var placement = typeof tooltip.options.placement === 'function' ?
+          tooltip.options.placement.call(tooltip, tip[0], $(tooltip)[0]) :
+          tooltip.options.placement;
+
+        switch (placement) {
         case 'bottom':
           tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
           break;
@@ -60,7 +65,7 @@ define(['jquery', 'Backbone'], function ($, Backbone) {
             return self.model.get('currParsedCommentText');
           },
           html: true,
-          placement: 'top'
+          placement: this.options.tooltipPlacement
         });
       }
       if (this.options.setHref) {
