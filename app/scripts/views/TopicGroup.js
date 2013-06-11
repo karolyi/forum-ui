@@ -1,5 +1,5 @@
 /* global define */
-define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'i18n', 'datetime'], function ($, Backbone, BackboneWebapp, templates, i18n) {
+define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'i18n', 'dateTime'], function ($, Backbone, BackboneWebapp, templates, i18n) {
   'use strict';
   var topicGroupTemplate;
   var loadLaunchTemplate;
@@ -55,8 +55,10 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'i18n', 'datetime']
         self.viewsArray.push(new BackboneWebapp.views.TopicName({
           el: topicElement,
           model: model,
-          onClick: function (model) {
+          onClick: function (event, model) {
+            event.preventDefault();
             BackboneWebapp.router.navigate('/topic/' + model.get('slug') + '/page/last/', {trigger: true});
+            $('html, body').animate({ scrollTop: 0 });
           },
           tooltipPlacement: function () {
             if ($('body').width() < 720) {

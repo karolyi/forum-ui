@@ -59,6 +59,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
     topicComments: function () {
       var runParameters = arguments;
       var slug = runParameters[0];
+      var contentWrapper;
       var indexTab = navTabs.find('a[data-appname="topic/' + slug + '"]');
       if (indexTab.length === 0) {
         var myRandom = randomString();
@@ -72,7 +73,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
         } else {
           navTabs.append($('<li/>').append(indexTab));
         }
-        var contentWrapper = $('<div>', {
+        contentWrapper = $('<div>', {
           'class': 'tab-pane',
           id: myRandom
         });
@@ -85,7 +86,9 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
           });
           contentWrapper.data('widgetInstance', commentsInTopic);
         });
+        indexTab.tab('show');
       } else {
+        contentWrapper = tabContentWrapper.children(indexTab.attr('href'));
         indexTab.tab('show');
       }
     }
@@ -100,12 +103,13 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
     if (BackboneWebapp.configuration.guiState.tabList !== undefined) {
       $.each(BackboneWebapp.configuration.guiState.tabList, function (index, element) {
         BackboneWebapp.router.navigate(element, {
-          trigger: true
+          trigger: true,
+          replace: true
         });
       });
       if (document.location.pathname !== origPathname) {
         BackboneWebapp.router.navigate(origPathname, {
-          trigger: false
+          trigger: true
         });
       }
     } else {
@@ -116,7 +120,6 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
   };
 
   BackboneWebapp.router = new Router();
-  // console.log(BackboneWebapp.router);
 
   return {
     init: init

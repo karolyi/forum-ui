@@ -18,11 +18,6 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates'], function ($, Backb
     initialize: function () {
       acquireAllLocks();
       var self = this;
-      // $(this.navTab).click(function (event) {
-      //   BackboneWebapp.router.navigate(self.url, {trigger:false});
-      //   event.preventDefault();
-      // });
-      // this.options.navTab.html('as;lijdqwewqoieqwoij');
       this.viewInstances = {};
       this.$el.addClass('comments-page-tab');
       this.collection = BackboneWebapp.topicCollections[this.slug] || (BackboneWebapp.topicCollections[this.slug] = new BackboneWebapp.collections.Comments());
@@ -36,8 +31,8 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates'], function ($, Backb
         commentsListPageTemplate = commentsListPage;
         commentTemplate = commentTemplateFromLoader;
         self.$el.append(commentsListPageTemplate);
-        self.commentsWrapper = self.$('.comment-list-wrapper');
-        self.controlsWrapper = self.$('.controls-wrapper');
+        self.$commentsWrapper = self.$('.comment-list-wrapper');
+        self.$controlsWrapper = self.$('.controls-wrapper');
         self.render();
       });
     },
@@ -51,10 +46,19 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates'], function ($, Backb
         self.navTabView = new BackboneWebapp.views.TopicName({
           el: self.options.navTab,
           model: topicModel,
-          showTooltip: false,
+          showTooltip: true,
           contentProperty: 'pureName',
           setHref: false,
-          handleClick: false
+          tooltipPlacement: 'bottom',
+          tooltipContentProperty: 'htmlName',
+          onClick: function (event, model) {
+            var myUrl = '/topic/';
+            $.each(self.options.arguments, function (index, item) {
+              myUrl += item + '/';
+            });
+            model.get('id');
+            BackboneWebapp.router.navigate(myUrl, {trigger: false});
+          }
         });
       });
     },
@@ -66,14 +70,25 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates'], function ($, Backb
         pageId: pageId
       }), function (index, item) {
         var $commentTemplate = $(commentTemplate);
-        self.commentsWrapper.append($commentTemplate);
+        self.$commentsWrapper.append($commentTemplate);
         self.viewInstances[item.get('commentUniqId')] = new BackboneWebapp.views.TopicComment({
           el: $commentTemplate,
-          model: item
+          model: item,
+          controllerView: self
         });
       });
       releaseAllLocks();
       return this;
+    },
+
+    scrollToUniqId: function (commentUniqId) {
+      var precederWrapper = this.$commentsWrapper.children('#' + commentUniqId);
+      if (precederWrapper.length === 0) {
+        return false;
+      }
+      var top = precederWrapper.position().top;
+      $('html, body').animate({ scrollTop: top }, 100);
+      BackboneWebapp.router.navigate('/top', {trigger: false});
     }
   });
 

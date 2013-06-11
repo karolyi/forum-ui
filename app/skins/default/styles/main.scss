@@ -96,8 +96,8 @@ a {
         .topic-bookmarked,
         .topic-not-bookmarked,
         .topic-archived {
-          border: 1px dashed black;
-          margin: 5px;
+          border: 2px dashed black;
+          margin: 10px;
           @include border-radius($borderRadiusLarge);
           .pagination-wrapper {
             // Insert styling here
@@ -134,7 +134,19 @@ a {
       .comments-page-tab {
         .comment-list-wrapper {
           .topic-comment-wrapper {
-            margin: 0
+            &,
+            .comment-header-wrapper,
+            .comment-body-wrapper,
+            .comment-footer-wrapper {
+              margin: 10px;
+            }
+            @include border-radius($borderRadiusLarge);
+            border: 2px dotted black;
+            @include transition(all .2s ease .5s);
+            &:hover {
+              @include box-shadow(0px 0px 4px black, inset 0px 0px 3px white);
+              background-color: rgba(100,100,100, 0.1);
+            }
           }
         }
       }

@@ -11,9 +11,9 @@ define(['jquery', 'Backbone'], function ($, Backbone) {
       showTooltip: true,
       contentProperty: 'htmlName',
       setHref: true,
-      handleClick: true,
       onClick: $.noop,
-      tooltipPlacement: 'top'
+      tooltipPlacement: 'top',
+      tooltipContentProperty: 'currParsedCommentText'
     },
 
     _adjustTooltip: function (tooltip) {
@@ -62,7 +62,7 @@ define(['jquery', 'Backbone'], function ($, Backbone) {
             self.adjustTimeout = setTimeout(function () {
               self._adjustTooltip($(myDiv).data('tooltip'));
             }, 100);
-            return self.model.get('currParsedCommentText');
+            return self.model.get(self.options.tooltipContentProperty);
           },
           html: true,
           placement: this.options.tooltipPlacement
@@ -71,12 +71,9 @@ define(['jquery', 'Backbone'], function ($, Backbone) {
       if (this.options.setHref) {
         this.$el.attr('href', '/topic/' + this.model.get('slug') + '/page/last/');
       }
-      if (this.options.handleClick) {
-        this.$el.click(function (event) {
-          event.preventDefault();
-          return self.options.onClick(self.model);
-        });
-      }
+      this.$el.click(function (event) {
+        return self.options.onClick(event, self.model);
+      });
     }
   });
   return TopicName;

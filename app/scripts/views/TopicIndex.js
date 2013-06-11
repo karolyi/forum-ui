@@ -6,7 +6,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'views/TopicGroup', 'templates']
   var TopicIndex = Backbone.View.extend({
     loadTopicList: function () {
       var deferObj = $.Deferred();
-      this.url = '/topic';
+      this.url = '/topic/';
       $.ajax({
         url: BackboneWebapp.configuration.apiHost + '/topic/index',
         dataType: 'json',
@@ -25,7 +25,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'views/TopicGroup', 'templates']
 
     initialize: function () {
       var self = this;
-      $(this.navTab).click(function (event) {
+      $(this.options.navTab).click(function (event) {
         BackboneWebapp.router.navigate(self.url, {trigger:false});
         event.preventDefault();
       });

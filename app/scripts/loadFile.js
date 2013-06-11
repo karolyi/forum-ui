@@ -15,7 +15,8 @@ define(['jquery', 'jStorage', 'BackboneWebapp'], function ($, jStorage, Backbone
     jStorage.set(url, data);
   };
 
-  var loadFromHttp = function (url, dataType, deferObj) {
+  var loadFromHttp = function (url, dataType) {
+    var deferObj = $.Deferred();
     var success = function (data) {
       setLocal(url, data);
       deferObj.resolve(data);
@@ -39,6 +40,7 @@ define(['jquery', 'jStorage', 'BackboneWebapp'], function ($, jStorage, Backbone
         error: error
       });
     }
+    return deferObj.promise();
   };
 
   var loadFromLocalStorage = function (url) {
@@ -49,22 +51,9 @@ define(['jquery', 'jStorage', 'BackboneWebapp'], function ($, jStorage, Backbone
     return null;
   };
 
-  var startLoading = function (url, dataType, deferObj) {
-    // Try from localstorage
-    var returnVar = loadFromLocalStorage(url);
-    if (returnVar !== null) {
-      deferObj.resolve(returnVar);
-      return;
-    }
-    // Try with http
-    loadFromHttp(url, dataType, deferObj);
-  };
-
   // The exported function
   var loadFile = function (url, dataType) {
-    var deferObj = $.Deferred();
-    startLoading(url, dataType, deferObj);
-    return deferObj.promise();
+    return loadFromLocalStorage(url) || loadFromHttp(url, dataType);
   };
 
   return loadFile;

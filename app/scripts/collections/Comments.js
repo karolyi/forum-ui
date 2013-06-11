@@ -18,15 +18,11 @@ define(['jquery', 'Backbone', 'models/Comment', 'SemaphoreGetter', 'BackboneWeba
     },
 
     comparator: function (comment) {
-      return comment.get('commentUniqId');
+      return -parseInt(comment.get('commentUniqId'), 16); // commentUniqId reverse sort (convert to decimal)
     },
 
     getDeferred: function (options) {
-      var returnValue = this.findWhere(options);
-      if (returnValue === undefined) {
-        return this.semaphoreGetter.addTerm(options);
-      }
-      return returnValue;
+      return this.findWhere(options) || this.semaphoreGetter.addTerm(options);
     },
 
     getDeferredPage: function (pageId) {
