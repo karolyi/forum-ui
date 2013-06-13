@@ -80,12 +80,13 @@ a {
   .forum-tabs-wrapper {
     margin-left: $navbarMinWidth;
     #forum-main-navtabs {
+      margin-bottom: 0;
+      background: rgba(255,255,255,.8);
       li a {
         max-width: 80px;
         @include text-overflow();
         cursor: pointer;
       }
-      margin-bottom: 0;
     }
     #forum-main-tabcontent-wrapper {
       background: url('../images/marble-opaque-bg.png') repeat repeat;
