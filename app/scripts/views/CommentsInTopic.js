@@ -73,7 +73,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates'], function ($, Backb
         tooltipPlacement: 'bottom',
         tooltipContentProperty: 'htmlName',
         onClick: function (event, model) {
-          var myUrl = '/topic/' + self.runParameters.slug + '/' + self.$el.attr('data-arguments') + '/';
+          var myUrl = '/topic/' + self.$el.attr('data-arguments') + '/';
           model.get('id');
           BackboneWebapp.router.navigate(myUrl, {trigger: false});
         }
@@ -81,6 +81,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates'], function ($, Backb
     },
 
     render: function (parametersArray) {
+      // TODO: check if the current state is the same as the requested
       var self = this;
       var deferObj;
       var renderSuccessCallback;
