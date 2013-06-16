@@ -9,6 +9,9 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n', 'dateTime'], function ($
       this.$footer = this.$el.find('.comment-footer-wrapper');
       this.widgetArray = [];
       this.render();
+      this.listenTo(this.model, 'change', function () {
+        // body...
+      });
     },
 
     render: function () {

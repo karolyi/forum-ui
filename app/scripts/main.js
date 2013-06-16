@@ -10,7 +10,9 @@ require.config({
     BackboneRel: '../components/backbone-relational/backbone-relational',
     hbs: '../components/require-handlebars-plugin/hbs',
     jStorage: '../components/jStorage/jstorage',
-    qtip2: '../components/qtip2/dist/jquery.qtip'
+    qtip2: '../components/qtip2/dist/jquery.qtip',
+    'jquery-indexeddb': '../components/jquery-indexeddb/jquery.indexeddb',
+    IndexedDbShim: '../components/IndexedDBShim/dist/IndexedDBShim.js'
   },
   shim: {
     // For the time being, we load ui here so the bootstrap overwrites it (tooltip problems)
@@ -34,6 +36,9 @@ require.config({
     },
     qtip2: {
       deps: ['jquery']
+    },
+    'jquery-indexeddb': {
+      deps: ['jquery', 'IndexedDbShim']
     }
   }
 });

@@ -57,7 +57,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
     },
 
     topicComments: function () {
-      var runParameters = arguments;
+      var runParameters = Array.prototype.slice.call(arguments, 0);
       var slug = runParameters[0];
       var contentWrapper;
       var indexTab = navTabs.find('a[data-appname="topic/' + slug + '"]');
@@ -90,6 +90,9 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
       } else {
         contentWrapper = tabContentWrapper.children(indexTab.attr('href'));
         indexTab.tab('show');
+        if (contentWrapper.data('widgetInstance')) {
+          contentWrapper.data('widgetInstance').render(runParameters);
+        }
       }
     }
   });

@@ -13,7 +13,8 @@ define(['jquery'], function ($) {
         'collections/RegisteredUsers',
         'collections/Bookmarks',
         'collections/Topics',
-        'collections/Comments',
+        'collections/TopicComments',
+        'collections/AllComments',
         'views/TopicName',
         'views/UserName',
         'views/CommentsInTopic',
@@ -26,7 +27,8 @@ define(['jquery'], function ($) {
         RegisteredUsers,
         Bookmarks,
         Topics,
-        Comments,
+        TopicComments,
+        AllComments,
         TopicName,
         UserName,
         CommentsInTopic,
@@ -39,7 +41,8 @@ define(['jquery'], function ($) {
         self.collections.registeredUsers = new RegisteredUsers();
         self.collections.Bookmarks = Bookmarks;
         self.collections.topics = new Topics();
-        self.collections.Comments = Comments;
+        self.collections.TopicComments = TopicComments;
+        self.collections.allComments = new AllComments();
         self.views.TopicName = TopicName;
         self.views.UserName = UserName;
         self.views.CommentsInTopic = CommentsInTopic;
@@ -57,6 +60,8 @@ define(['jquery'], function ($) {
     topicCollections: {},
     widgetInstancesArray: []
   };
+
+  window.BackboneWebapp = webapp;
 
   return webapp;
 });
