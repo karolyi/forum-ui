@@ -58,7 +58,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'i18n', 'dateTime']
           onClick: function (event, model) {
             event.preventDefault();
             BackboneWebapp.router.navigate('/topic/' + model.get('slug') + '/page/last/', {trigger: true});
-            $('html, body').animate({ scrollTop: 0 });
+            $('body').scrollTop(0);
           },
           tooltipPlacement: function () {
             if ($('body').width() < 720) {

@@ -136,8 +136,8 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'jquery-lazyload'],
         return false;
       }
       if (commentWrapper.is(':visible')) {
-        var top = commentWrapper.position().top;
-        $('html, body').animate({ scrollTop: top }, 100);
+        var top = commentWrapper.offset().top;
+        $('body').scrollTop(top);
       }
       return true;
       // BackboneWebapp.router.navigate('/top', {trigger: false});
