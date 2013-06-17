@@ -10,10 +10,10 @@ define(['jquery', 'widgets/backgroundChanger', 'i18n', 'BackboneWebapp', 'widget
 
   var launch = function (config) {
     BackboneWebapp.configuration = config;
-    backgroundChanger.start({
-      bgImageArray: config.bgImageArray,
-      changeTime: 5 * 60 * 1000
-    });
+    // backgroundChanger.start({
+    //   bgImageArray: config.bgImageArray,
+    //   changeTime: 5 * 60 * 1000
+    // });
     // Load localization and templates for the skin
     $.when(
       i18n.init(config.displayLanguage),
