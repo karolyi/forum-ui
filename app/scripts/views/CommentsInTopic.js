@@ -1,5 +1,5 @@
 /* global define */
-define(['jquery', 'Backbone', 'BackboneWebapp', 'templates'], function ($, Backbone, BackboneWebapp, templates) {
+define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'jquery-lazyload'], function ($, Backbone, BackboneWebapp, templates) {
   'use strict';
   var commentsListPageTemplate;
   var commentTemplate;
@@ -122,6 +122,9 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates'], function ($, Backb
           controllerView: this
         });
       }
+      this.$commentsWrapper.find('img.embedded-forum-picture').lazyload({
+        effect: 'fadeIn'
+      });
       if ($.isFunction(renderSuccessCallback)) {
         renderSuccessCallback();
       }

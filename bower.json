@@ -16,7 +16,8 @@
     "qtip2": "latest",
     "backbone-relational": "latest",
     "IndexedDBShim": "latest",
-    "jquery-indexeddb": "latest"
+    "jquery-indexeddb": "latest",
+    "jquery.lazyload": "latest"
   },
   "devDependencies": {}
 }

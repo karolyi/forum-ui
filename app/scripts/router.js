@@ -78,6 +78,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
           id: myRandom
         });
         tabContentWrapper.append(contentWrapper);
+        acquireAllLocks();
         require(['views/CommentsInTopic'], function (CommentsInTopic) {
           var commentsInTopic = new CommentsInTopic({
             navTab: indexTab,
@@ -85,6 +86,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
             arguments: runParameters
           });
           contentWrapper.data('widgetInstance', commentsInTopic);
+          releaseAllLocks();
         });
         indexTab.tab('show');
       } else {
@@ -111,6 +113,9 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n'], function ($, Backbone, 
         });
       });
       if (document.location.pathname !== origPathname) {
+        if (origPathname === '/') {
+          origPathname = '/topic/';
+        }
         BackboneWebapp.router.navigate(origPathname, {
           trigger: true
         });
