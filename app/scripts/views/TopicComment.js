@@ -66,7 +66,11 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'i18n', 'dateTime'], function ($
             text: '#' + self.model.get('prevNumber'),
             click: function (event) {
               event.preventDefault();
-              BackboneWebapp.router.navigate(myUrl, {trigger: true});
+              if (myUrl !== Backbone.history.location.pathname) {
+                BackboneWebapp.router.navigate(myUrl, {trigger: true});
+              } else {
+                self.options.controllerView.scrollToUniqId(self.model.get('prevUniqId'));
+              }
             }
           }));
           self.$answeredCommentWrapper.append(' (');

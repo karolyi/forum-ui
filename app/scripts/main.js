@@ -12,8 +12,7 @@ require.config({
     jStorage: '../components/jStorage/jstorage',
     qtip2: '../components/qtip2/dist/jquery.qtip',
     'jquery-indexeddb': '../components/jquery-indexeddb/jquery.indexeddb',
-    IndexedDbShim: '../components/IndexedDBShim/dist/IndexedDBShim',
-    'jquery-lazyload': '../components/jquery.lazyload/jquery.lazyload'
+    IndexedDbShim: '../components/IndexedDBShim/dist/IndexedDBShim'
   },
   shim: {
     // For the time being, we load ui here so the bootstrap overwrites it (tooltip problems)
@@ -41,8 +40,8 @@ require.config({
     'jquery-indexeddb': {
       deps: ['jquery', 'IndexedDbShim']
     },
-    'jquery-lazyload': {
-      deps: ['jquery']
+    'widgets/lazyImageLoad': {
+      deps: ['jquery', 'jquery-ui']
     }
   }
 });

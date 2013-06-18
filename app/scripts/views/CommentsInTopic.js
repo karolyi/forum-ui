@@ -1,5 +1,5 @@
 /* global define */
-define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'jquery-lazyload'], function ($, Backbone, BackboneWebapp, templates) {
+define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'widgets/lazyImageLoad'], function ($, Backbone, BackboneWebapp, templates) {
   'use strict';
   var commentsListPageTemplate;
   var commentTemplate;
@@ -112,6 +112,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'jquery-lazyload'],
     },
 
     _renderComments: function (renderSuccessCallback) {
+      var self = this;
       for (var index = 0; index < this.collection.models.length; index++) {
         var model = this.collection.models[index];
         var $commentTemplate = $(commentTemplate);
@@ -122,12 +123,28 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'jquery-lazyload'],
           controllerView: this
         });
       }
-      this.$commentsWrapper.find('img.embedded-forum-picture').lazyload({
-        effect: 'fadeIn'
-      });
+      var allImages = this.$('img');
+      var loadedImageCount = 0;
+      if (allImages.length) {
+        this.$('img').one('load abort error', function () {
+          $(this).off('load abort error');
+          loadedImageCount++;
+          if (loadedImageCount === allImages.length) {
+            self._onRenderFinished(renderSuccessCallback);
+          }
+        });
+      } else {
+        this._onRenderFinished(renderSuccessCallback);
+      }
+    },
+
+    _onRenderFinished: function (renderSuccessCallback) {
       if ($.isFunction(renderSuccessCallback)) {
         renderSuccessCallback();
       }
+      this.$commentsWrapper.find('img.embedded-forum-picture:not([data-missing])').lazyImageLoad({
+        effect: 'fadeIn'
+      });
     },
 
     scrollToUniqId: function (commentUniqId) {
@@ -135,9 +152,13 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'jquery-lazyload'],
       if (commentWrapper.length === 0) {
         return false;
       }
+      if (!commentWrapper.hasClass('highlighted')) {
+        this.$commentsWrapper.children().removeClass('highlighted');
+        commentWrapper.addClass('highlighted');
+      }
       if (commentWrapper.is(':visible')) {
-        var top = commentWrapper.offset().top;
-        $('body').scrollTop(top);
+        var top = commentWrapper.position().top;
+        $(window).scrollTop(top);
       }
       return true;
       // BackboneWebapp.router.navigate('/top', {trigger: false});

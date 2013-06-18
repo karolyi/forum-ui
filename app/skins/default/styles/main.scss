@@ -89,6 +89,9 @@ a {
       }
     }
     #forum-main-tabcontent-wrapper {
+      img.embedded-forum-picture.preload {
+        background: url('http://cdn.hondaforum.hu/ajax-loader.gif') no-repeat center center;
+      }
       background: url('../images/marble-opaque-bg.png') repeat repeat;
       @include border-bottom-left-radius($tabContentRadius);
       @include border-bottom-right-radius($tabContentRadius);
@@ -135,6 +138,9 @@ a {
       .comments-page-tab {
         .comment-list-wrapper {
           .topic-comment-wrapper {
+            &.highlighted {
+              border: 2px solid black;
+            }
             &,
             .comment-header-wrapper,
             .comment-body-wrapper,
