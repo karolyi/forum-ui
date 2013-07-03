@@ -142,8 +142,10 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'widgets/lazyImageL
       if ($.isFunction(renderSuccessCallback)) {
         renderSuccessCallback();
       }
-      this.$commentsWrapper.find('img.embedded-forum-picture:not([data-missing])').lazyImageLoad({
-        effect: 'fadeIn'
+      var isVisible = this.$commentsWrapper.is(':visible');
+      this.$commentsWrapper.find('img.embedded-forum-picture:not([data-missing]), .embedded-player').lazyImageLoad({
+        effect: 'fadeIn',
+        isVisible: isVisible
       });
     },
 

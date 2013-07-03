@@ -79,7 +79,7 @@ define(['jquery', 'SemaphoreGetter', 'BackboneWebapp', 'underscore', 'collection
           }
           self.reset();
           if (_.size(data.result.comments) > 0) {
-            self._addToCollections(data.result.comments)
+            self._addToCollections(data.result.comments);
           }
           deferObj.resolve();
         }

@@ -89,8 +89,10 @@ a {
       }
     }
     #forum-main-tabcontent-wrapper {
-      img.embedded-forum-picture.preload {
-        background: url('http://cdn.hondaforum.hu/ajax-loader.gif') no-repeat center center;
+      img.embedded-forum-picture {
+        &.loaded {
+          background: url('http://cdn.hondaforum.hu/ajax-loader.gif') no-repeat center center;
+        }
       }
       background: url('../images/marble-opaque-bg.png') repeat repeat;
       @include border-bottom-left-radius($tabContentRadius);
@@ -156,6 +158,29 @@ a {
             }
           }
         }
+      }
+    }
+  }
+  .embedded-player {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    .preloader-image {
+      display: block;
+    }
+    .player-wrapper {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    &.loaded {
+      width: 100%;
+      height: auto;
+      .preloader-image {
+        display: none;
+      }
+      .player-wrapper {
+        display: block;
       }
     }
   }
