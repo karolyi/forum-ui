@@ -5,13 +5,13 @@ define(['jquery', 'jquery-ui'], function ($) {
   var windowHeight = $window.height();
   $window.on('resize', function (event) {
     windowHeight = $window.height();
-    for (var index = 0; index < $.Forum.lazyImageLoad.instances.length; index++) {
-      var instance = $.Forum.lazyImageLoad.instances[index];
+    for (var index = 0; index < $.Forum.lazyLoad.instances.length; index++) {
+      var instance = $.Forum.lazyLoad.instances[index];
       instance._onEventWindowResize(event);
     }
   });
 
-  $.widget('Forum.lazyImageLoad', {
+  $.widget('Forum.lazyLoad', {
     options: {
       adjustTimeout: 500, // In msecs
       isVisible: false
@@ -37,7 +37,7 @@ define(['jquery', 'jquery-ui'], function ($) {
           this._bindScrollEvent();
         }
       }
-      $.Forum.lazyImageLoad.instances.push(this);
+      $.Forum.lazyLoad.instances.push(this);
       this._super();
     },
 
@@ -69,17 +69,23 @@ define(['jquery', 'jquery-ui'], function ($) {
       this._lastScrollPos = $window.scrollTop();
     },
 
-    _onEventWindowResize: function (event) {
-      if (this._isResizeWatched) {
-        this._updateHeight(event);
-        return;
+    _onEventWindowResize: function () {
+      if (this.options.isVisible) {
+        if (this._isResizeWatched) {
+          // this._updateHeight();
+          return;
+        }
+        if (!this.element.hasClass('loading')) {
+          this._onEventScroll();
+          return;
+        }
       }
     },
 
     _startLoading: function () {
       this._isUpwardScrolled = $window.scrollTop() < this._lastScrollPos;
       this._unbindScrollEvent();
-      this.element.addClass('loaded');
+      this.element.addClass('loading');
       if (this.element.hasClass('embedded-forum-picture')) {
         this._showImage();
         return;
@@ -107,6 +113,7 @@ define(['jquery', 'jquery-ui'], function ($) {
 
     _onImageLoaded: function () {
       this._isLoaded = true;
+      this.element.addClass('finished');
       if (this._adjustIntervalId) {
         clearInterval(this._adjustIntervalId);
       }
@@ -114,10 +121,14 @@ define(['jquery', 'jquery-ui'], function ($) {
       if (!this._isScrollTopAdjusted) {
         this._adjustScrollTop();
       }
+      this.currentHeight = this.element.height();
     },
 
     _showEmbeddedPlayer: function () {
       this._isResizeWatched = true;
+      this.element.addClass('finished');
+      var scriptContent = this.element.children('script').remove().contents()[0];
+      this.element.append($(scriptContent).text());
       var ratioArray = this.element.attr('data-aspect-ratio').split(',');
       for (var index = 0; index < ratioArray.length; index++) {
         var configStr = ratioArray[index];
@@ -165,30 +176,40 @@ define(['jquery', 'jquery-ui'], function ($) {
     },
 
     _setOption: function (key, value) {
-      this._super(key, value);
-      if (key === 'isVisible' && !this.element.hasClass('loaded')) {
+      $.Widget.prototype._setOption.call(this, key, value);
+      if (key === 'isVisible') {
         if (value) {
-          this._bindScrollEvent();
-          this._onEventScroll();
+          if (this._isResizeWatched) {
+            this._updateHeight();
+            return;
+          }
+          if (!this.element.hasClass('loading')) {
+            this._bindScrollEvent();
+            this._onEventScroll();
+            return;
+          }
         } else {
-          this._unbindScrollEvent();
+          if (!this.element.hasClass('loading')) {
+            this._unbindScrollEvent();
+            return;
+          }
         }
       }
     },
 
     destroy: function () {
-      if (!this._isLoaded && !this.element.hasClass('loaded')) {
+      if (!this._isLoaded && !this.element.hasClass('loading')) {
         this._unbindScrollEvent();
       }
-      var index = $.Forum.lazyImageLoad.instances.indexOf(this);
+      var index = $.Forum.lazyLoad.instances.indexOf(this);
       if (index !== -1) {
-        $.Forum.lazyImageLoad.instances.splice(index, 1);
+        $.Forum.lazyLoad.instances.splice(index, 1);
       }
       this._super();
     }
   });
 
-  $.extend($.Forum.lazyImageLoad, {
+  $.extend($.Forum.lazyLoad, {
     instances: []
   });
 });

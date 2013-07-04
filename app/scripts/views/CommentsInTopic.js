@@ -1,5 +1,5 @@
 /* global define */
-define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'widgets/lazyImageLoad'], function ($, Backbone, BackboneWebapp, templates) {
+define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'widgets/lazyLoad'], function ($, Backbone, BackboneWebapp, templates) {
   'use strict';
   var commentsListPageTemplate;
   var commentTemplate;
@@ -143,7 +143,7 @@ define(['jquery', 'Backbone', 'BackboneWebapp', 'templates', 'widgets/lazyImageL
         renderSuccessCallback();
       }
       var isVisible = this.$commentsWrapper.is(':visible');
-      this.$commentsWrapper.find('img.embedded-forum-picture:not([data-missing]), .embedded-player').lazyImageLoad({
+      this.$commentsWrapper.find('img.embedded-forum-picture:not([data-missing]), .embedded-player').lazyLoad({
         effect: 'fadeIn',
         isVisible: isVisible
       });

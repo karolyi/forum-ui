@@ -90,8 +90,11 @@ a {
     }
     #forum-main-tabcontent-wrapper {
       img.embedded-forum-picture {
-        &.loaded {
+        &.loading {
           background: url('http://cdn.hondaforum.hu/ajax-loader.gif') no-repeat center center;
+          &.finished {
+            background: none;
+          }
         }
       }
       background: url('../images/marble-opaque-bg.png') repeat repeat;
@@ -173,7 +176,7 @@ a {
       width: 100%;
       height: 100%;
     }
-    &.loaded {
+    &.loading {
       width: 100%;
       height: auto;
       .preloader-image {
@@ -181,6 +184,9 @@ a {
       }
       .player-wrapper {
         display: block;
+      }
+      &.finished {
+        background: none;
       }
     }
   }
